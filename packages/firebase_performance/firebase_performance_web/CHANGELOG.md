@@ -1,3 +1,71 @@
+## 0.1.7+15
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+14
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+13
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+12
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+11
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+10
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+9
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+8
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+7
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+6
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+5
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+4
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+3
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+2
+
+ - Update a dependency to the latest release.
+
+## 0.1.7+1
+
+ - Update a dependency to the latest release.
+
+## 0.1.7
+
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 0.1.6+13
+
+ - Update a dependency to the latest release.
+
 ## 0.1.6+12
 
  - Update a dependency to the latest release.

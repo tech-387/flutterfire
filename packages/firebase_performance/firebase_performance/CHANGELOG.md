@@ -1,3 +1,71 @@
+## 0.10.1+9
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+8
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+7
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+6
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+5
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+4
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+3
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+2
+
+ - Update a dependency to the latest release.
+
+## 0.10.1+1
+
+ - Update a dependency to the latest release.
+
+## 0.10.1
+
+ - **FEAT**(perf): Swift Package Manager support ([#16849](https://github.com/firebase/flutterfire/issues/16849)). ([9231dd0c](https://github.com/firebase/flutterfire/commit/9231dd0c99d3745ce4174b8c91acbbe93bfcdeb1))
+
+## 0.10.0+11
+
+ - Update a dependency to the latest release.
+
+## 0.10.0+10
+
+ - Update a dependency to the latest release.
+
+## 0.10.0+9
+
+ - Update a dependency to the latest release.
+
+## 0.10.0+8
+
+ - **FIX**(all,apple): use modular headers to import ([#13400](https://github.com/firebase/flutterfire/issues/13400)). ([d7d2d4b9](https://github.com/firebase/flutterfire/commit/d7d2d4b93e7c00226027fffde46699f3d5388a41))
+
+## 0.10.0+7
+
+ - Update a dependency to the latest release.
+
+## 0.10.0+6
+
+ - Update a dependency to the latest release.
+
+## 0.10.0+5
+
+ - **DOCS**: remove reference to flutter.io and firebase.flutter.dev ([#13152](https://github.com/firebase/flutterfire/issues/13152)). ([5f0874b9](https://github.com/firebase/flutterfire/commit/5f0874b91e28a203dd62d37d391e5760c91f5729))
+
 ## 0.10.0+4
 
  - Update a dependency to the latest release.

@@ -6,7 +6,7 @@
 // ignore_for_file: public_member_api_docs
 
 @JS('firebase_firestore')
-library firebase_interop.firestore;
+library;
 
 import 'dart:js_interop';
 
@@ -436,6 +436,22 @@ extension GeoPointJsImplExtension on GeoPointJsImpl {
   external JSBoolean isEqual(JSObject other);
 }
 
+@JS('VectorValue')
+@staticInterop
+external VectorValueJsImpl get VectorValueConstructor;
+
+@JS('VectorValue')
+@staticInterop
+class VectorValueJsImpl {}
+
+extension VectorValueJsImplExtension on VectorValueJsImpl {
+  external JSArray toArray();
+}
+
+@JS()
+@staticInterop
+external VectorValueJsImpl vector(JSArray values);
+
 @JS('Bytes')
 @staticInterop
 external BytesJsImpl get BytesConstructor;
@@ -719,6 +735,9 @@ abstract class FirestoreSettings {
     JSString? host,
     JSBoolean? ssl,
     JSBoolean? ignoreUndefinedProperties,
+    JSBoolean? experimentalForceLongPolling,
+    JSBoolean? experimentalAutoDetectLongPolling,
+    JSAny? experimentalLongPollingOptions,
     JSObject localCache,
   });
 }
@@ -746,6 +765,37 @@ extension FirestoreSettingsExtension on FirestoreSettings {
   /// Union type MemoryLocalCache | PersistentLocalCache;
   //ignore: avoid_setters_without_getters
   external set localCache(JSObject u);
+
+  external set experimentalLongPollingOptions(JSAny v);
+}
+
+/// Options that configure the SDK’s underlying network transport (WebChannel) when long-polling is used
+/// These options are only used if experimentalForceLongPolling is true
+/// or if experimentalAutoDetectLongPolling is true and the auto-detection determined that long-polling was needed.
+/// Otherwise, these options have no effect.
+@anonymous
+@JS()
+@staticInterop
+abstract class ExperimentalLongPollingOptions {
+  external factory ExperimentalLongPollingOptions({
+    JSNumber? timeoutSeconds,
+  });
+}
+
+extension ExperimentalLongPollingOptionsExtension
+    on ExperimentalLongPollingOptions {
+  /// The desired maximum timeout interval, in seconds, to complete a long-polling GET response
+  /// Valid values are between 5 and 30, inclusive.
+  /// Floating point values are allowed and will be rounded to the nearest millisecond
+  /// By default, when long-polling is used the "hanging GET" request sent by the client times out after 30 seconds.
+  /// To request a different timeout from the server, set this setting with the desired timeout.
+  /// Changing the default timeout may be useful, for example,
+  /// if the buffering proxy that necessitated enabling long-polling in the first place has a shorter timeout for hanging GET requests,
+  /// in which case setting the long-polling timeout to a shorter value,
+  /// such as 25 seconds, may fix prematurely-closed hanging GET requests.
+  external JSNumber? get timeoutSeconds;
+
+  external set timeoutSeconds(JSNumber? v);
 }
 
 /// Union type from all supported SDK cache layer.
@@ -769,7 +819,7 @@ extension MemoryLocalCacheExtension on MemoryLocalCache {
   external JSString get kind;
 }
 
-/// A tab manager supportting only one tab, no synchronization will be performed across tabs.
+/// A tab manager supporting only one tab, no synchronization will be performed across tabs.
 @anonymous
 @JS()
 @staticInterop

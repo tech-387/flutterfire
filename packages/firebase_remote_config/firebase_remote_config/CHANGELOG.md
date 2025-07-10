@@ -1,3 +1,72 @@
+## 5.4.7
+
+ - Update a dependency to the latest release.
+
+## 5.4.6
+
+ - Update a dependency to the latest release.
+
+## 5.4.5
+
+ - Update a dependency to the latest release.
+
+## 5.4.4
+
+ - Update a dependency to the latest release.
+
+## 5.4.3
+
+ - Update a dependency to the latest release.
+
+## 5.4.2
+
+ - Update a dependency to the latest release.
+
+## 5.4.1
+
+ - Update a dependency to the latest release.
+
+## 5.4.0
+
+ - **FEAT**(remote-config): custom signals support ([#17053](https://github.com/firebase/flutterfire/issues/17053)). ([7cf248a8](https://github.com/firebase/flutterfire/commit/7cf248a8808e3d8f7fed29f18ddaf1fadf329ca3))
+
+## 5.3.1
+
+ - Update a dependency to the latest release.
+
+## 5.3.0
+
+ - Update a dependency to the latest release.
+
+## 5.2.0
+
+ - **FEAT**(remote_config): Swift Package Manager support ([#16772](https://github.com/firebase/flutterfire/issues/16772)). ([164421ec](https://github.com/firebase/flutterfire/commit/164421ec8d3d67ca0349bce60d2b7731ad704639))
+
+## 5.1.5
+
+ - Update a dependency to the latest release.
+
+## 5.1.4
+
+ - **FIX**(remote_config,android): remove invalid map key from Remote Config teardown ([#13514](https://github.com/firebase/flutterfire/issues/13514)). ([d958f2a6](https://github.com/firebase/flutterfire/commit/d958f2a66a3a824b44974193e8d54a597a122fcc))
+
+## 5.1.3
+
+ - **FIX**(all,apple): use modular headers to import ([#13400](https://github.com/firebase/flutterfire/issues/13400)). ([d7d2d4b9](https://github.com/firebase/flutterfire/commit/d7d2d4b93e7c00226027fffde46699f3d5388a41))
+
+## 5.1.2
+
+ - Update a dependency to the latest release.
+
+## 5.1.1
+
+ - Update a dependency to the latest release.
+
+## 5.1.0
+
+ - **FEAT**: bump iOS SDK to version 11.0.0 ([#13158](https://github.com/firebase/flutterfire/issues/13158)). ([c0e0c997](https://github.com/firebase/flutterfire/commit/c0e0c99703ea394d1bb873ac225c5fe3539b002d))
+ - **DOCS**: remove reference to flutter.io and firebase.flutter.dev ([#13152](https://github.com/firebase/flutterfire/issues/13152)). ([5f0874b9](https://github.com/firebase/flutterfire/commit/5f0874b91e28a203dd62d37d391e5760c91f5729))
+
 ## 5.0.4
 
  - Update a dependency to the latest release.

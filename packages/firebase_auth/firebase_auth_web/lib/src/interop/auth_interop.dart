@@ -7,7 +7,7 @@
 // ignore_for_file: public_member_api_docs
 
 @JS('firebase_auth')
-library firebase_interop.auth;
+library;
 
 import 'dart:js_interop';
 
@@ -84,8 +84,8 @@ external JSPromise deleteUser(
 );
 
 @JS()
-// Promise<List>
-external JSPromise fetchSignInMethodsForEmail(AuthJsImpl auth, JSString email);
+external JSPromise<JSArray<JSString>> fetchSignInMethodsForEmail(
+    AuthJsImpl auth, JSString email);
 
 @JS()
 external JSBoolean isSignInWithEmailLink(JSString emailLink);
@@ -727,6 +727,7 @@ class ActionCodeSettings {
     AndroidSettings? android,
     JSBoolean? handleCodeInApp,
     JSString? dynamicLinkDomain,
+    JSString? linkDomain,
   });
 }
 
@@ -741,6 +742,8 @@ extension ActionCodeSettingsExtension on ActionCodeSettings {
   external set handleCodeInApp(JSBoolean b);
   external JSString get dynamicLinkDomain;
   external set dynamicLinkDomain(JSString d);
+  external JSString get linkDomain;
+  external set linkDomain(JSString d);
 }
 
 /// The iOS settings.
@@ -981,3 +984,6 @@ class PhoneAuthCredentialJsImpl extends AuthCredential {
 extension PhoneAuthCredentialJsImplExtension on PhoneAuthCredentialJsImpl {
   external JSObject toJSON();
 }
+
+@JS()
+external JSPromise initializeRecaptchaConfig(AuthJsImpl auth);

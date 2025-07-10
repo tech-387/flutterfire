@@ -1,3 +1,71 @@
+## 6.1.9
+
+ - Update a dependency to the latest release.
+
+## 6.1.8
+
+ - Update a dependency to the latest release.
+
+## 6.1.7
+
+ - Update a dependency to the latest release.
+
+## 6.1.6
+
+ - Update a dependency to the latest release.
+
+## 6.1.5
+
+ - Update a dependency to the latest release.
+
+## 6.1.4
+
+ - Update a dependency to the latest release.
+
+## 6.1.3
+
+ - Update a dependency to the latest release.
+
+## 6.1.2
+
+ - Update a dependency to the latest release.
+
+## 6.1.1
+
+ - Update a dependency to the latest release.
+
+## 6.1.0
+
+ - **FEAT**(dynamic-links): Swift Package Manager support ([#16852](https://github.com/firebase/flutterfire/issues/16852)). ([4d91fd80](https://github.com/firebase/flutterfire/commit/4d91fd80f772d0c0e11eda36573de8f816cdcd8d))
+
+## 6.0.11
+
+ - Update a dependency to the latest release.
+
+## 6.0.10
+
+ - Update a dependency to the latest release.
+
+## 6.0.9
+
+ - Update a dependency to the latest release.
+
+## 6.0.8
+
+ - **FIX**(all,apple): use modular headers to import ([#13400](https://github.com/firebase/flutterfire/issues/13400)). ([d7d2d4b9](https://github.com/firebase/flutterfire/commit/d7d2d4b93e7c00226027fffde46699f3d5388a41))
+
+## 6.0.7
+
+ - Update a dependency to the latest release.
+
+## 6.0.6
+
+ - Update a dependency to the latest release.
+
+## 6.0.5
+
+ - **DOCS**: remove reference to flutter.io and firebase.flutter.dev ([#13152](https://github.com/firebase/flutterfire/issues/13152)). ([5f0874b9](https://github.com/firebase/flutterfire/commit/5f0874b91e28a203dd62d37d391e5760c91f5729))
+
 ## 6.0.4
 
  - Update a dependency to the latest release.
@@ -164,7 +232,7 @@
 ## 5.3.0
 
  - **FEAT**: update dependency constraints to `sdk: '>=2.18.0 <4.0.0'` `flutter: '>=3.3.0'` ([#10946](https://github.com/firebase/flutterfire/issues/10946)). ([2772d10f](https://github.com/firebase/flutterfire/commit/2772d10fe510dcc28ec2d37a26b266c935699fa6))
- - **FEAT**: update librairies to be compatible with Flutter 3.10.0 ([#10944](https://github.com/firebase/flutterfire/issues/10944)). ([e1f5a5ea](https://github.com/firebase/flutterfire/commit/e1f5a5ea798c54f19d1d2f7b8f2250f8819f44b7))
+ - **FEAT**: update libraries to be compatible with Flutter 3.10.0 ([#10944](https://github.com/firebase/flutterfire/issues/10944)). ([e1f5a5ea](https://github.com/firebase/flutterfire/commit/e1f5a5ea798c54f19d1d2f7b8f2250f8819f44b7))
 
 ## 5.2.0
 

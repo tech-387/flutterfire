@@ -5,7 +5,7 @@
 // ignore_for_file: avoid_unused_constructor_parameters, non_constant_identifier_names, public_member_api_docs
 
 @JS('firebase_remote_config')
-library firebase.remote_config_interop;
+library;
 
 import 'dart:js_interop';
 
@@ -17,7 +17,7 @@ external RemoteConfigJsImpl getRemoteConfig([AppJsImpl? app]);
 
 @JS()
 @staticInterop
-external JSPromise /* bool */ activate(RemoteConfigJsImpl remoteConfig);
+external JSPromise<JSBoolean> activate(RemoteConfigJsImpl remoteConfig);
 
 @JS()
 @staticInterop
@@ -25,7 +25,7 @@ external JSPromise ensureInitialized(RemoteConfigJsImpl remoteConfig);
 
 @JS()
 @staticInterop
-external JSPromise /* bool */ fetchAndActivate(RemoteConfigJsImpl remoteConfig);
+external JSPromise<JSBoolean> fetchAndActivate(RemoteConfigJsImpl remoteConfig);
 
 @JS()
 @staticInterop
@@ -51,10 +51,16 @@ external JSString getString(RemoteConfigJsImpl remoteConfig, JSString key);
 @staticInterop
 external ValueJsImpl getValue(RemoteConfigJsImpl remoteConfig, JSString key);
 
-// TODO - api to be implemented
 @JS()
 @staticInterop
 external JSPromise isSupported();
+
+@JS()
+@staticInterop
+external JSPromise setCustomSignals(
+  RemoteConfigJsImpl remoteConfig,
+  JSObject customSignals,
+);
 
 @JS()
 @staticInterop

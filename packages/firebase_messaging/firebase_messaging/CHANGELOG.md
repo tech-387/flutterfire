@@ -1,3 +1,75 @@
+## 15.2.9
+
+ - Update a dependency to the latest release.
+
+## 15.2.8
+
+ - Update a dependency to the latest release.
+
+## 15.2.7
+
+ - Update a dependency to the latest release.
+
+## 15.2.6
+
+ - Update a dependency to the latest release.
+
+## 15.2.5
+
+ - Update a dependency to the latest release.
+
+## 15.2.4
+
+ - Update a dependency to the latest release.
+
+## 15.2.3
+
+ - Update a dependency to the latest release.
+
+## 15.2.2
+
+ - Update a dependency to the latest release.
+
+## 15.2.1
+
+ - **FIX**(messaging,android): remove a deprecation message ([#16995](https://github.com/firebase/flutterfire/issues/16995)). ([b4e46db6](https://github.com/firebase/flutterfire/commit/b4e46db6fcc9080673108599a24bb4c1fe79f0f3))
+
+## 15.2.0
+
+ - **FEAT**(messaging,apple): allow system to display button for in-app notification settings ([#13484](https://github.com/firebase/flutterfire/issues/13484)). ([b36f924e](https://github.com/firebase/flutterfire/commit/b36f924e018f4d88ea5eaf17a779b2c3cf03583d))
+ - **FEAT**(messaging): Swift Package Manager support ([#13205](https://github.com/firebase/flutterfire/issues/13205)) ([#16786](https://github.com/firebase/flutterfire/issues/16786)). ([165d2ab6](https://github.com/firebase/flutterfire/commit/165d2ab6f9a25d4209ada837b13add584fdd225d))
+
+## 15.1.6
+
+ - Update a dependency to the latest release.
+
+## 15.1.5
+
+ - Update a dependency to the latest release.
+
+## 15.1.4
+
+ - **FIX**(messaging,ios): foreground notification appears twice on iOS 18 ([#13572](https://github.com/firebase/flutterfire/issues/13572)). ([ae0197f6](https://github.com/firebase/flutterfire/commit/ae0197f6dbb5a84ce004080953b5ab4d4e485b53))
+ - **FIX**(messaging,ios): remove dummy APNS token for simulator ([#13570](https://github.com/firebase/flutterfire/issues/13570)). ([17dfff1e](https://github.com/firebase/flutterfire/commit/17dfff1ed45eec57eb13c811a3a134f4dbf793df))
+ - **FIX**(messaging,ios): register app delegate with google utilities for swizzling ([#13525](https://github.com/firebase/flutterfire/issues/13525)). ([8ff0f88c](https://github.com/firebase/flutterfire/commit/8ff0f88c512a0dde16f5906c36259b911e0d5de7))
+
+## 15.1.3
+
+ - **FIX**(all,apple): use modular headers to import ([#13400](https://github.com/firebase/flutterfire/issues/13400)). ([d7d2d4b9](https://github.com/firebase/flutterfire/commit/d7d2d4b93e7c00226027fffde46699f3d5388a41))
+
+## 15.1.2
+
+ - Update a dependency to the latest release.
+
+## 15.1.1
+
+ - Update a dependency to the latest release.
+
+## 15.1.0
+
+ - **FEAT**: bump iOS SDK to version 11.0.0 ([#13158](https://github.com/firebase/flutterfire/issues/13158)). ([c0e0c997](https://github.com/firebase/flutterfire/commit/c0e0c99703ea394d1bb873ac225c5fe3539b002d))
+ - **DOCS**: remove reference to flutter.io and firebase.flutter.dev ([#13152](https://github.com/firebase/flutterfire/issues/13152)). ([5f0874b9](https://github.com/firebase/flutterfire/commit/5f0874b91e28a203dd62d37d391e5760c91f5729))
+
 ## 15.0.4
 
  - **DOCS**(messaging,android): update inline documentation on behavior ([#12948](https://github.com/firebase/flutterfire/issues/12948)). ([8d7e2217](https://github.com/firebase/flutterfire/commit/8d7e2217446618b93c064933ef0bf2506c219275))
@@ -450,7 +522,7 @@
 
  - **FIX**: revert onMessage event handler commit which causes another bug (#6878).
  - **FIX**: allow messages when device is in idle mode (#6730).
- - **FIX**: onMessage event handler for notifcations with `contentAvailable:true` (#6838).
+ - **FIX**: onMessage event handler for notifications with `contentAvailable:true` (#6838).
 
 ## 10.0.5
 

@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of firebase_core_web;
+part of '../firebase_core_web.dart';
 
 /// Defines a Firebase service by name.
 class FirebaseWebService {
@@ -202,8 +202,13 @@ class FirebaseCoreWeb extends FirebasePlatform {
   List<FirebaseAppPlatform> get apps {
     try {
       return firebase.apps.map(_createFromJsApp).toList(growable: false);
-    } catch (exception) {
-      if (exception.toString().contains('of undefined')) {
+    } catch (exception, stackTrace) {
+      final exceptionMessage = exception.toString();
+      final stackTraceMessage = stackTrace.toString();
+      const undefinedError = 'of undefined';
+
+      if (exceptionMessage.contains(undefinedError) ||
+          stackTraceMessage.contains(undefinedError)) {
         // Keeps behavior consistent with other platforms which can access list without initializing app.
         return [];
       } else {

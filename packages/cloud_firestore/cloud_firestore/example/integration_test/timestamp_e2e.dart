@@ -21,7 +21,7 @@ void runTimestampTests() {
       return firestore.doc(prefixedPath);
     }
 
-    testWidgets('sets a $Timestamp & returns one', (_) async {
+    test('sets a $Timestamp & returns one', () async {
       DocumentReference<Map<String, dynamic>> doc =
           await initializeTest('timestamp');
       DateTime date = DateTime.utc(3000);
@@ -37,7 +37,7 @@ void runTimestampTests() {
       );
     });
 
-    testWidgets('updates a $Timestamp & returns', (_) async {
+    test('updates a $Timestamp & returns', () async {
       DocumentReference<Map<String, dynamic>> doc =
           await initializeTest('geo-point-update');
       DateTime date = DateTime.utc(3000, 01, 02);
@@ -51,6 +51,23 @@ void runTimestampTests() {
       expect(
         timestamp.millisecondsSinceEpoch,
         equals(date.millisecondsSinceEpoch),
+      );
+    });
+
+    test('set pre-1970 $Timestamp and return', () async {
+      DocumentReference<Map<String, dynamic>> doc =
+          await initializeTest('timestamp');
+      final date = DateTime(1969, 06, 22, 0, 0, 0, 123);
+      final localTimestamp = Timestamp.fromDate(date);
+
+      await doc.set({'foo': localTimestamp});
+
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await doc.get();
+      Timestamp retievedTimestamp = snapshot.data()!['foo'];
+      expect(retievedTimestamp, isA<Timestamp>());
+      expect(
+        retievedTimestamp,
+        equals(localTimestamp),
       );
     });
   });

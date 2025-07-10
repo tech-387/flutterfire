@@ -1,3 +1,75 @@
+## 4.11.4
+
+ - Update a dependency to the latest release.
+
+## 4.11.3
+
+ - Update a dependency to the latest release.
+
+## 4.11.2
+
+ - Update a dependency to the latest release.
+
+## 4.11.1
+
+ - Update a dependency to the latest release.
+
+## 4.11.0
+
+ - **FEAT**(cloud_functions): add support for cloud functions stream ([#17214](https://github.com/firebase/flutterfire/issues/17214)). ([509e0f3c](https://github.com/firebase/flutterfire/commit/509e0f3cc984a7b56a67979b4b27aff72defdd55))
+
+## 4.10.11
+
+ - Update a dependency to the latest release.
+
+## 4.10.10
+
+ - Update a dependency to the latest release.
+
+## 4.10.9
+
+ - Update a dependency to the latest release.
+
+## 4.10.8
+
+ - Update a dependency to the latest release.
+
+## 4.10.7
+
+ - Update a dependency to the latest release.
+
+## 4.10.6
+
+ - Update a dependency to the latest release.
+
+## 4.10.5
+
+ - Update a dependency to the latest release.
+
+## 4.10.4
+
+ - Update a dependency to the latest release.
+
+## 4.10.3
+
+ - Update a dependency to the latest release.
+
+## 4.10.2
+
+ - Update a dependency to the latest release.
+
+## 4.10.1
+
+ - Update a dependency to the latest release.
+
+## 4.10.0
+
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 4.9.12
+
+ - Update a dependency to the latest release.
+
 ## 4.9.11
 
  - Update a dependency to the latest release.

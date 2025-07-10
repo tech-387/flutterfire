@@ -42,8 +42,8 @@ public class FlutterFirebaseStoragePlugin
   static final String STORAGE_TASK_EVENT_NAME = "taskEvent";
   static final String DEFAULT_ERROR_CODE = "firebase_storage";
 
-  private final Map<String, EventChannel> eventChannels = new HashMap<>();
-  private final Map<String, StreamHandler> streamHandlers = new HashMap<>();
+  static final Map<String, EventChannel> eventChannels = new HashMap<>();
+  static final Map<String, StreamHandler> streamHandlers = new HashMap<>();
 
   static Map<String, String> getExceptionDetails(Exception exception) {
     Map<String, String> details = new HashMap<>();
@@ -145,11 +145,6 @@ public class FlutterFirebaseStoragePlugin
     this.messenger = messenger;
   }
 
-  private String registerEventChannel(String prefix, StreamHandler handler) {
-    String identifier = UUID.randomUUID().toString().toLowerCase(Locale.US);
-    return registerEventChannel(prefix, identifier, handler);
-  }
-
   private String registerEventChannel(String prefix, String identifier, StreamHandler handler) {
     final String channelName = prefix + "/" + identifier;
 
@@ -161,16 +156,26 @@ public class FlutterFirebaseStoragePlugin
     return identifier;
   }
 
-  private void removeEventListeners() {
-    for (String identifier : eventChannels.keySet()) {
-      eventChannels.get(identifier).setStreamHandler(null);
+  private synchronized void removeEventListeners() {
+    // Create a list to hold the keys to remove after iteration
+    List<String> eventChannelKeys = new ArrayList<>(eventChannels.keySet());
+    for (String identifier : eventChannelKeys) {
+      EventChannel eventChannel = eventChannels.get(identifier);
+      if (eventChannel != null) {
+        eventChannel.setStreamHandler(null);
+      }
+      eventChannels.remove(identifier);
     }
-    eventChannels.clear();
 
-    for (String identifier : streamHandlers.keySet()) {
-      streamHandlers.get(identifier).onCancel(null);
+    // Create a list to hold the keys to remove after iteration
+    List<String> streamHandlerKeys = new ArrayList<>(streamHandlers.keySet());
+    for (String identifier : streamHandlerKeys) {
+      StreamHandler streamHandler = streamHandlers.get(identifier);
+      if (streamHandler != null) {
+        streamHandler.onCancel(null);
+      }
+      streamHandlers.remove(identifier);
     }
-    streamHandlers.clear();
   }
 
   private FirebaseStorage getStorageFromPigeon(
@@ -225,7 +230,7 @@ public class FlutterFirebaseStoragePlugin
     }
   }
 
-  // FirebaseStorageHostApi Reference releated api override
+  // FirebaseStorageHostApi Reference related api override
   @Override
   public void referenceDelete(
       @NonNull GeneratedAndroidFirebaseStorage.PigeonStorageFirebaseApp app,
@@ -459,10 +464,12 @@ public class FlutterFirebaseStoragePlugin
         FlutterFirebaseStorageTask.uploadBytes(
             handle.intValue(), androidReference, data, androidMetaData);
     try {
-      TaskStateChannelStreamHandler handler = storageTask.startTaskWithMethodChannel(channel);
+      String identifier = UUID.randomUUID().toString().toLowerCase(Locale.US);
+      TaskStateChannelStreamHandler handler =
+          storageTask.startTaskWithMethodChannel(channel, identifier);
       result.success(
           registerEventChannel(
-              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, handler));
+              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, identifier, handler));
     } catch (Exception e) {
       result.error(FlutterFirebaseStorageException.parserExceptionToFlutter(e));
     }
@@ -489,10 +496,12 @@ public class FlutterFirebaseStoragePlugin
             androidMetaData);
 
     try {
-      TaskStateChannelStreamHandler handler = storageTask.startTaskWithMethodChannel(channel);
+      String identifier = UUID.randomUUID().toString().toLowerCase(Locale.US);
+      TaskStateChannelStreamHandler handler =
+          storageTask.startTaskWithMethodChannel(channel, identifier);
       result.success(
           registerEventChannel(
-              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, handler));
+              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, identifier, handler));
     } catch (Exception e) {
       result.error(FlutterFirebaseStorageException.parserExceptionToFlutter(e));
     }
@@ -517,10 +526,12 @@ public class FlutterFirebaseStoragePlugin
             settableMetaData == null ? null : getMetaDataFromPigeon(settableMetaData));
 
     try {
-      TaskStateChannelStreamHandler handler = storageTask.startTaskWithMethodChannel(channel);
+      String identifier = UUID.randomUUID().toString().toLowerCase(Locale.US);
+      TaskStateChannelStreamHandler handler =
+          storageTask.startTaskWithMethodChannel(channel, identifier);
       result.success(
           registerEventChannel(
-              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, handler));
+              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, identifier, handler));
     } catch (Exception e) {
       result.error(FlutterFirebaseStorageException.parserExceptionToFlutter(e));
     }
@@ -540,16 +551,18 @@ public class FlutterFirebaseStoragePlugin
             handle.intValue(), androidReference, new File(filePath));
 
     try {
-      TaskStateChannelStreamHandler handler = storageTask.startTaskWithMethodChannel(channel);
+      String identifier = UUID.randomUUID().toString().toLowerCase(Locale.US);
+      TaskStateChannelStreamHandler handler =
+          storageTask.startTaskWithMethodChannel(channel, identifier);
       result.success(
           registerEventChannel(
-              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, handler));
+              STORAGE_METHOD_CHANNEL_NAME + "/" + STORAGE_TASK_EVENT_NAME, identifier, handler));
     } catch (Exception e) {
       result.error(FlutterFirebaseStorageException.parserExceptionToFlutter(e));
     }
   }
 
-  // FirebaseStorageHostApi Task releated api override
+  // FirebaseStorageHostApi Task related api override
   @Override
   public void taskPause(
       @NonNull GeneratedAndroidFirebaseStorage.PigeonStorageFirebaseApp app,

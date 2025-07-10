@@ -1,3 +1,75 @@
+## 0.3.2+9
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+8
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+7
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+6
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+5
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+4
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+3
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+2
+
+ - Update a dependency to the latest release.
+
+## 0.3.2+1
+
+ - Update a dependency to the latest release.
+
+## 0.3.2
+
+ - **FEAT**(app-installations): Swift Package Manager support ([#16856](https://github.com/firebase/flutterfire/issues/16856)). ([547c6d71](https://github.com/firebase/flutterfire/commit/547c6d713ddb6ff339e6d873dae75a29aa3e75eb))
+
+## 0.3.1+7
+
+ - Update a dependency to the latest release.
+
+## 0.3.1+6
+
+ - Update a dependency to the latest release.
+
+## 0.3.1+5
+
+ - Update a dependency to the latest release.
+
+## 0.3.1+4
+
+ - Update a dependency to the latest release.
+
+## 0.3.1+3
+
+ - Update a dependency to the latest release.
+
+## 0.3.1+2
+
+ - Update a dependency to the latest release.
+
+## 0.3.1+1
+
+ - **FIX**(installations,apple): update the plugin to support parallels method calling ([#13256](https://github.com/firebase/flutterfire/issues/13256)). ([fe18362f](https://github.com/firebase/flutterfire/commit/fe18362f817d4bac33e98199e076a2c3d65656c5))
+
+## 0.3.1
+
+ - **FEAT**: bump iOS SDK to version 11.0.0 ([#13158](https://github.com/firebase/flutterfire/issues/13158)). ([c0e0c997](https://github.com/firebase/flutterfire/commit/c0e0c99703ea394d1bb873ac225c5fe3539b002d))
+
 ## 0.3.0+4
 
  - Update a dependency to the latest release.

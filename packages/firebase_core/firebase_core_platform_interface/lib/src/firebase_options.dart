@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 // ignore_for_file: deprecated_member_use_from_same_package
-part of firebase_core_platform_interface;
+part of '../firebase_core_platform_interface.dart';
 
 /// The options used to configure a Firebase app.
 ///
@@ -57,7 +57,7 @@ class FirebaseOptions {
   /// This constructor is used when platforms cannot directly return a
   /// [FirebaseOptions] instance, for example when data is sent back from a
   /// [MethodChannel].
-  FirebaseOptions.fromPigeon(PigeonFirebaseOptions options)
+  FirebaseOptions.fromPigeon(CoreFirebaseOptions options)
       : apiKey = options.apiKey,
         appId = options.appId,
         messagingSenderId = options.messagingSenderId,

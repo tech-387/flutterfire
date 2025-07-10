@@ -1,3 +1,88 @@
+## 4.4.11
+
+ - Update a dependency to the latest release.
+
+## 4.4.10
+
+ - Update a dependency to the latest release.
+
+## 4.4.9
+
+ - Update a dependency to the latest release.
+
+## 4.4.8
+
+ - Update a dependency to the latest release.
+
+## 4.4.7
+
+ - Update a dependency to the latest release.
+
+## 4.4.6
+
+ - Update a dependency to the latest release.
+
+## 4.4.5
+
+ - Update a dependency to the latest release.
+
+## 4.4.4
+
+ - Update a dependency to the latest release.
+
+## 4.4.3
+
+ - Update a dependency to the latest release.
+
+## 4.4.2
+
+ - Update a dependency to the latest release.
+
+## 4.4.1
+
+ - Update a dependency to the latest release.
+
+## 4.4.0
+
+ - **FEAT**(firestore): add support for VectorValue ([#16476](https://github.com/firebase/flutterfire/issues/16476)). ([cc23f179](https://github.com/firebase/flutterfire/commit/cc23f179082256fe9700f17e3856821b4a6d4240))
+
+## 4.3.5
+
+ - Update a dependency to the latest release.
+
+## 4.3.4
+
+ - Update a dependency to the latest release.
+
+## 4.3.3
+
+ - Update a dependency to the latest release.
+
+## 4.3.2
+
+ - Update a dependency to the latest release.
+
+## 4.3.1
+
+ - Update a dependency to the latest release.
+
+## 4.3.0
+
+ - **FIX**(firestore,web): only set long polling options if it has a value ([#13295](https://github.com/firebase/flutterfire/issues/13295)). ([04b5002c](https://github.com/firebase/flutterfire/commit/04b5002c49904bae0b369f06147b5c2a90b978ee))
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 4.2.0
+
+ - **FEAT**(firestore,web): expose `webExperimentalForceLongPolling`, `webExperimentalAutoDetectLongPolling` and `timeoutSeconds` on web ([#13201](https://github.com/firebase/flutterfire/issues/13201)). ([6ec2a103](https://github.com/firebase/flutterfire/commit/6ec2a103a3a325a73550bdfff4c0d524ae7e4068))
+
+## 4.1.2
+
+ - **FIX**(firestore): not passing correctly the ListenSource when listening to as single `DocumentReference` ([#13179](https://github.com/firebase/flutterfire/issues/13179)). ([ce6e1c97](https://github.com/firebase/flutterfire/commit/ce6e1c97efc1398bc3c209d7a522e3bb67db3d0f))
+
+## 4.1.1
+
+ - Update a dependency to the latest release.
+
 ## 4.1.0
 
  - **FIX**(firestore,web): stop cleaning up snapshot listeners in debug ([#13119](https://github.com/firebase/flutterfire/issues/13119)). ([82a63c8b](https://github.com/firebase/flutterfire/commit/82a63c8bf9bad0c262ed48d7829fb05110a9fe08))
@@ -36,7 +121,7 @@
 
 ## 3.12.2
 
- - **FIX**(web): fixing some uncorrect type casting for Web ([#12696](https://github.com/firebase/flutterfire/issues/12696)). ([471b5072](https://github.com/firebase/flutterfire/commit/471b507265a08bbc68277d3a2fdb7ef608c9efcc))
+ - **FIX**(web): fixing some incorrect type casting for Web ([#12696](https://github.com/firebase/flutterfire/issues/12696)). ([471b5072](https://github.com/firebase/flutterfire/commit/471b507265a08bbc68277d3a2fdb7ef608c9efcc))
 
 ## 3.12.1
 
@@ -505,7 +590,7 @@
 
 ## 1.0.6
 
- - **REFACTOR**: Share guard functions accross plugins (#5783).
+ - **REFACTOR**: Share guard functions across plugins (#5783).
 
 ## 1.0.5
 

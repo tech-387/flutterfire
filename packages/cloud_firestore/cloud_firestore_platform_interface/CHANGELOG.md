@@ -1,3 +1,87 @@
+## 6.6.11
+
+ - Update a dependency to the latest release.
+
+## 6.6.10
+
+ - Update a dependency to the latest release.
+
+## 6.6.9
+
+ - Update a dependency to the latest release.
+
+## 6.6.8
+
+ - Update a dependency to the latest release.
+
+## 6.6.7
+
+ - **FIX**(cloud_firestore): correct nanoseconds calculation for pre-1970 dates ([#17195](https://github.com/firebase/flutterfire/issues/17195)). ([a13deae3](https://github.com/firebase/flutterfire/commit/a13deae3334045fb1a48817ff9300cbe0696d177))
+
+## 6.6.6
+
+ - Update a dependency to the latest release.
+
+## 6.6.5
+
+ - Update a dependency to the latest release.
+
+## 6.6.4
+
+ - Update a dependency to the latest release.
+
+## 6.6.3
+
+ - Update a dependency to the latest release.
+
+## 6.6.2
+
+ - Update a dependency to the latest release.
+
+## 6.6.1
+
+ - Update a dependency to the latest release.
+
+## 6.6.0
+
+ - **FEAT**(firestore): add support for VectorValue ([#16476](https://github.com/firebase/flutterfire/issues/16476)). ([cc23f179](https://github.com/firebase/flutterfire/commit/cc23f179082256fe9700f17e3856821b4a6d4240))
+
+## 6.5.1
+
+ - Update a dependency to the latest release.
+
+## 6.5.0
+
+ - **FEAT**(firestore): Swift Package Manager support ([#13329](https://github.com/firebase/flutterfire/issues/13329)). ([0420eabb](https://github.com/firebase/flutterfire/commit/0420eabb3ab247e0e3998bedcb9779fe35c46920))
+
+## 6.4.4
+
+ - Update a dependency to the latest release.
+
+## 6.4.3
+
+ - Update a dependency to the latest release.
+
+## 6.4.2
+
+ - **FIX**(cloud_firestore): properly export pigeon message file from interface ([#13316](https://github.com/firebase/flutterfire/issues/13316)). ([445a8b56](https://github.com/firebase/flutterfire/commit/445a8b56ccdd816c64a0ab92a48d4af689594661))
+
+## 6.4.1
+
+ - Update a dependency to the latest release.
+
+## 6.4.0
+
+ - **FEAT**(firestore,web): expose `webExperimentalForceLongPolling`, `webExperimentalAutoDetectLongPolling` and `timeoutSeconds` on web ([#13201](https://github.com/firebase/flutterfire/issues/13201)). ([6ec2a103](https://github.com/firebase/flutterfire/commit/6ec2a103a3a325a73550bdfff4c0d524ae7e4068))
+
+## 6.3.2
+
+ - **FIX**(firestore): not passing correctly the ListenSource when listening to as single `DocumentReference` ([#13179](https://github.com/firebase/flutterfire/issues/13179)). ([ce6e1c97](https://github.com/firebase/flutterfire/commit/ce6e1c97efc1398bc3c209d7a522e3bb67db3d0f))
+
+## 6.3.1
+
+ - **FIX**: compilation issue on Windows ([#13135](https://github.com/firebase/flutterfire/issues/13135)). ([de8c9e0f](https://github.com/firebase/flutterfire/commit/de8c9e0f2d3117b3614ac8295b041fea7ed3ee7f))
+
 ## 6.3.0
 
  - **FEAT**(firestore): support for `PersistentCacheIndexManager` for firestore instances for managing cache indexes. ([#13070](https://github.com/firebase/flutterfire/issues/13070)). ([806c15d7](https://github.com/firebase/flutterfire/commit/806c15d7eadaf48b8dfb22586bea4ed684672a86))
@@ -186,7 +270,7 @@
 ## 5.14.0
 
  - **FEAT**: update dependency constraints to `sdk: '>=2.18.0 <4.0.0'` `flutter: '>=3.3.0'` ([#10946](https://github.com/firebase/flutterfire/issues/10946)). ([2772d10f](https://github.com/firebase/flutterfire/commit/2772d10fe510dcc28ec2d37a26b266c935699fa6))
- - **FEAT**: update librairies to be compatible with Flutter 3.10.0 ([#10944](https://github.com/firebase/flutterfire/issues/10944)). ([e1f5a5ea](https://github.com/firebase/flutterfire/commit/e1f5a5ea798c54f19d1d2f7b8f2250f8819f44b7))
+ - **FEAT**: update libraries to be compatible with Flutter 3.10.0 ([#10944](https://github.com/firebase/flutterfire/issues/10944)). ([e1f5a5ea](https://github.com/firebase/flutterfire/commit/e1f5a5ea798c54f19d1d2f7b8f2250f8819f44b7))
 
 ## 5.13.0
 

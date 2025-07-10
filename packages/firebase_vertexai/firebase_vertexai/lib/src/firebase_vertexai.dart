@@ -12,31 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:firebase_ai/firebase_ai.dart';
+// ignore: implementation_imports
+import 'package:firebase_ai/src/base_model.dart'
+    show createGenerativeModel, createLiveGenerativeModel, createImagenModel;
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart'
     show FirebasePluginPlatform;
-
-import 'vertex_api.dart';
-import 'vertex_content.dart';
-import 'vertex_function_calling.dart';
-import 'vertex_model.dart';
+import 'package:meta/meta.dart';
 
 const _defaultLocation = 'us-central1';
 
-/// Default timeout duration, 30 minutes in millisecond
-const int defaultTimeout = 1800000;
-
 /// The entrypoint for [FirebaseVertexAI].
+@Deprecated(
+  '`FirebaseVertexAI` library and `firebase_vertexai` package have been renamed '
+  'and replaced by the new Firebase AI SDK: `FirebaseAI` in `firebase_ai` package. '
+  'See details in the [migration guide](https://firebase.google.com/docs/vertex-ai/migrate-to-latest-sdk).',
+)
 class FirebaseVertexAI extends FirebasePluginPlatform {
   FirebaseVertexAI._(
       {required this.app,
-      required this.options,
       required this.location,
+      required bool useVertexBackend,
       this.appCheck,
       this.auth})
-      : super(app.name, 'plugins.flutter.io/firebase_vertexai');
+      : _useVertexBackend = useVertexBackend,
+        super(app.name, 'plugins.flutter.io/firebase_vertexai');
 
   /// The [FirebaseApp] for this current [FirebaseVertexAI] instance.
   FirebaseApp app;
@@ -48,11 +51,10 @@ class FirebaseVertexAI extends FirebasePluginPlatform {
   /// The optional [FirebaseAuth] for this current [FirebaseVertexAI] instance.
   FirebaseAuth? auth;
 
-  /// Configuration parameters for sending requests to the backend.
-  RequestOptions options;
-
   /// The service location for this [FirebaseVertexAI] instance.
   String location;
+
+  final bool _useVertexBackend;
 
   static final Map<String, FirebaseVertexAI> _cachedInstances = {};
 
@@ -71,27 +73,37 @@ class FirebaseVertexAI extends FirebasePluginPlatform {
     FirebaseApp? app,
     FirebaseAppCheck? appCheck,
     FirebaseAuth? auth,
-    RequestOptions? options,
+    String? location,
+  }) =>
+      _vertexAI(app: app, appCheck: appCheck, auth: auth, location: location);
+
+  /// Returns an instance using a specified [FirebaseApp].
+  ///
+  /// If [app] is not provided, the default Firebase app will be used.
+  /// If pass in [appCheck], request session will get protected from abusing.
+  static FirebaseVertexAI _vertexAI({
+    FirebaseApp? app,
+    FirebaseAppCheck? appCheck,
+    FirebaseAuth? auth,
     String? location,
   }) {
     app ??= Firebase.app();
+    var instanceKey = '${app.name}::vertexai';
 
-    if (_cachedInstances.containsKey(app.name)) {
-      return _cachedInstances[app.name]!;
+    if (_cachedInstances.containsKey(instanceKey)) {
+      return _cachedInstances[instanceKey]!;
     }
-
-    options ??=
-        RequestOptions(timeout: const Duration(milliseconds: defaultTimeout));
 
     location ??= _defaultLocation;
 
     FirebaseVertexAI newInstance = FirebaseVertexAI._(
-        app: app,
-        options: options,
-        location: location,
-        appCheck: appCheck,
-        auth: auth);
-    _cachedInstances[app.name] = newInstance;
+      app: app,
+      location: location,
+      appCheck: appCheck,
+      auth: auth,
+      useVertexBackend: true,
+    );
+    _cachedInstances[instanceKey] = newInstance;
 
     return newInstance;
   }
@@ -107,34 +119,68 @@ class FirebaseVertexAI extends FirebasePluginPlatform {
   /// The optional [safetySettings] and [generationConfig] can be used to
   /// control and guide the generation. See [SafetySetting] and
   /// [GenerationConfig] for details.
-  GenerativeModel generativeModel(
-      {required String model,
-      List<SafetySetting>? safetySettings,
-      GenerationConfig? generationConfig,
-      Content? systemInstruction,
-      List<Tool>? tools,
-      ToolConfig? toolConfig}) {
+  GenerativeModel generativeModel({
+    required String model,
+    List<SafetySetting>? safetySettings,
+    GenerationConfig? generationConfig,
+    List<Tool>? tools,
+    ToolConfig? toolConfig,
+    Content? systemInstruction,
+  }) {
     return createGenerativeModel(
-        model: model,
-        app: app,
-        appCheck: appCheck,
-        auth: auth,
-        location: location,
-        safetySettings: safetySettings,
-        generationConfig: generationConfig,
-        systemInstruction: systemInstruction,
-        tools: tools,
-        toolConfig: toolConfig);
+      model: model,
+      app: app,
+      appCheck: appCheck,
+      useVertexBackend: _useVertexBackend,
+      auth: auth,
+      location: location,
+      safetySettings: safetySettings,
+      generationConfig: generationConfig,
+      tools: tools,
+      toolConfig: toolConfig,
+      systemInstruction: systemInstruction,
+    );
   }
-}
 
-/// Options for request to backend.
-class RequestOptions {
-  /// [timeout] duration for the request.
-  RequestOptions({
-    required this.timeout,
-  });
+  /// Create a [ImagenModel].
+  ///
+  /// The optional [safetySettings] can be used to control and guide the
+  /// generation. See [ImagenSafetySettings] for details.
+  @experimental
+  ImagenModel imagenModel(
+      {required String model,
+      ImagenGenerationConfig? generationConfig,
+      ImagenSafetySettings? safetySettings}) {
+    return createImagenModel(
+        app: app,
+        location: location,
+        model: model,
+        useVertexBackend: _useVertexBackend,
+        generationConfig: generationConfig,
+        safetySettings: safetySettings,
+        appCheck: appCheck,
+        auth: auth);
+  }
 
-  /// Timeout for the request, default to 30 minutes, in milliseconds.
-  final Duration timeout;
+  /// Create a [LiveGenerativeModel] for real-time interaction.
+  ///
+  /// The optional [liveGenerationConfig] can be used to control and guide the
+  /// generation. See [LiveGenerationConfig] for details.
+  LiveGenerativeModel liveGenerativeModel({
+    required String model,
+    LiveGenerationConfig? liveGenerationConfig,
+    List<Tool>? tools,
+    Content? systemInstruction,
+  }) {
+    return createLiveGenerativeModel(
+      app: app,
+      location: location,
+      model: model,
+      liveGenerationConfig: liveGenerationConfig,
+      tools: tools,
+      systemInstruction: systemInstruction,
+      appCheck: appCheck,
+      auth: auth,
+    );
+  }
 }

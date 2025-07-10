@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of firebase_auth;
+part of '../firebase_auth.dart';
 
 /// The entry point of the Firebase Authentication SDK.
 class FirebaseAuth extends FirebasePluginPlatform {
@@ -83,16 +83,7 @@ class FirebaseAuth extends FirebasePluginPlatform {
   /// Do not use with production credentials as emulator traffic is not encrypted.
   Future<void> useAuthEmulator(String host, int port,
       {bool automaticHostMapping = true}) async {
-    String mappedHost = host;
-
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      if ((mappedHost == 'localhost' || mappedHost == '127.0.0.1') &&
-          automaticHostMapping) {
-        // ignore: avoid_print
-        print('Mapping Auth Emulator host "$mappedHost" to "10.0.2.2".');
-        mappedHost = '10.0.2.2';
-      }
-    }
+    String mappedHost = automaticHostMapping ? getMappedHost(host) : host;
 
     await _delegate.useAuthEmulator(mappedHost, port);
   }
@@ -223,14 +214,14 @@ class FirebaseAuth extends FirebasePluginPlatform {
   ///  - Thrown if the password is not strong enough.
   /// - **too-many-requests**:
   ///  - Thrown if the user sent too many requests at the same time, for security
-  ///     the api will not allow too many attemps at the same time, user will have
+  ///     the api will not allow too many attempts at the same time, user will have
   ///     to wait for some time
   /// - **user-token-expired**:
   ///  - Thrown if the user is no longer authenticated since his refresh token
   ///    has been expired
   /// - **network-request-failed**:
-  ///  - Thrown if there was a network request error, for example the user don't
-  ///    don't have internet connection
+  ///  - Thrown if there was a network request error, for example the user
+  ///    doesn't have internet connection
   /// - **operation-not-allowed**:
   ///  - Thrown if email/password accounts are not enabled. Enable
   ///    email/password accounts in the Firebase Console, under the Auth tab.
@@ -507,7 +498,7 @@ class FirebaseAuth extends FirebasePluginPlatform {
   ///    verification code of the credential is not valid.
   /// - **invalid-verification-id**:
   ///  - Thrown if the credential is a [PhoneAuthProvider.credential] and the
-  ///    verification ID of the credential is not valid.id.
+  ///    verification ID of the credential is not valid.
   Future<UserCredential> signInWithCredential(AuthCredential credential) async {
     try {
       return UserCredential._(
@@ -573,18 +564,18 @@ class FirebaseAuth extends FirebasePluginPlatform {
   ///    corresponding to the email does not have a password set.
   /// - **too-many-requests**:
   ///  - Thrown if the user sent too many requests at the same time, for security
-  ///     the api will not allow too many attemps at the same time, user will have
+  ///     the api will not allow too many attempts at the same time, user will have
   ///     to wait for some time
   /// - **user-token-expired**:
   ///  - Thrown if the user is no longer authenticated since his refresh token
   ///    has been expired
   /// - **network-request-failed**:
-  ///  - Thrown if there was a network request error, for example the user don't
-  ///    don't have internet connection
+  ///  - Thrown if there was a network request error, for example the user
+  ///    doesn't have internet connection
   /// - **INVALID_LOGIN_CREDENTIALS** or **invalid-credential**:
   ///  - Thrown if the password is invalid for the given email, or the account
   ///    corresponding to the email does not have a password set.
-  ///    depending on if you are using firebase emulator or not the code is
+  ///    Depending on if you are using firebase emulator or not the code is
   ///    different
   /// - **operation-not-allowed**:
   ///  - Thrown if email/password accounts are not enabled. Enable
@@ -826,6 +817,12 @@ class FirebaseAuth extends FirebasePluginPlatform {
   /// Authorization code can be retrieved on the user credential i.e. userCredential.additionalUserInfo.authorizationCode
   Future<void> revokeTokenWithAuthorizationCode(String authorizationCode) {
     return _delegate.revokeTokenWithAuthorizationCode(authorizationCode);
+  }
+
+  /// Initializes the reCAPTCHA Enterprise client proactively to enhance reCAPTCHA signal collection and
+  /// to complete reCAPTCHA-protected flows in a single attempt.
+  Future<void> initializeRecaptchaConfig() {
+    return _delegate.initializeRecaptchaConfig();
   }
 
   @override

@@ -1,3 +1,76 @@
+## 11.3.9
+
+ - Update a dependency to the latest release.
+
+## 11.3.8
+
+ - Update a dependency to the latest release.
+
+## 11.3.7
+
+ - Update a dependency to the latest release.
+
+## 11.3.6
+
+ - Update a dependency to the latest release.
+
+## 11.3.5
+
+ - Update a dependency to the latest release.
+
+## 11.3.4
+
+ - Update a dependency to the latest release.
+
+## 11.3.3
+
+ - Update a dependency to the latest release.
+
+## 11.3.2
+
+ - Update a dependency to the latest release.
+
+## 11.3.1
+
+ - Update a dependency to the latest release.
+
+## 11.3.0
+
+ - Update a dependency to the latest release.
+
+## 11.2.0
+
+ - **FEAT**(database): Swift Package Manager support ([#16783](https://github.com/firebase/flutterfire/issues/16783)). ([1509c33e](https://github.com/firebase/flutterfire/commit/1509c33e0154df52e2d998a82f1eb832e4d13c84))
+
+## 11.1.6
+
+ - Update a dependency to the latest release.
+
+## 11.1.5
+
+ - Update a dependency to the latest release.
+
+## 11.1.4
+
+ - **FIX**(all,apple): use modular headers to import ([#13400](https://github.com/firebase/flutterfire/issues/13400)). ([d7d2d4b9](https://github.com/firebase/flutterfire/commit/d7d2d4b93e7c00226027fffde46699f3d5388a41))
+
+## 11.1.3
+
+ - Update a dependency to the latest release.
+
+## 11.1.2
+
+ - Update a dependency to the latest release.
+
+## 11.1.1
+
+ - Update a dependency to the latest release.
+
+## 11.1.0
+
+ - **FEAT**: bump iOS SDK to version 11.0.0 ([#13158](https://github.com/firebase/flutterfire/issues/13158)). ([c0e0c997](https://github.com/firebase/flutterfire/commit/c0e0c99703ea394d1bb873ac225c5fe3539b002d))
+ - **DOCS**: remove reference to flutter.io and firebase.flutter.dev ([#13152](https://github.com/firebase/flutterfire/issues/13152)). ([5f0874b9](https://github.com/firebase/flutterfire/commit/5f0874b91e28a203dd62d37d391e5760c91f5729))
+
 ## 11.0.4
 
  - Update a dependency to the latest release.

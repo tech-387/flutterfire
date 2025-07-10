@@ -12,58 +12,73 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export 'src/firebase_vertexai.dart'
+import 'package:firebase_ai/firebase_ai.dart'
+    show FirebaseAIException, FirebaseAISdkException;
+
+export 'package:firebase_ai/firebase_ai.dart'
     show
-        // TODO(next breaking): Remove defaultTimeout
-        defaultTimeout,
-        FirebaseVertexAI,
-        RequestOptions;
-export 'src/vertex_api.dart'
-    show
-        BatchEmbedContentsResponse,
         BlockReason,
         Candidate,
         CitationMetadata,
-        CitationSource,
-        ContentEmbedding,
+        Citation,
         CountTokensResponse,
-        // TODO(next breaking): Remove CountTokensResponseFields
-        CountTokensResponseFields,
-        EmbedContentRequest,
-        EmbedContentResponse,
         FinishReason,
         GenerateContentResponse,
         GenerationConfig,
         HarmBlockThreshold,
         HarmCategory,
         HarmProbability,
+        HarmBlockMethod,
         PromptFeedback,
+        ResponseModalities,
         SafetyRating,
         SafetySetting,
-        TaskType,
-        // TODO(next breaking): Remove parse* methods
-        parseCountTokensResponse,
-        parseEmbedContentResponse,
-        parseGenerateContentResponse;
-export 'src/vertex_chat.dart' show ChatSession, StartChatExtension;
-export 'src/vertex_content.dart'
-    show
+        UsageMetadata,
+        GenerativeModel,
+        ImagenModel,
+        LiveGenerativeModel,
+        ChatSession,
+        StartChatExtension,
         Content,
-        DataPart,
+        InlineDataPart,
         FileData,
         FunctionCall,
         FunctionResponse,
         Part,
         TextPart,
-        // TODO(next breaking): Remove parseContent
-        parseContent;
-export 'src/vertex_function_calling.dart'
-    show
+        InvalidApiKey,
+        ServerException,
+        UnsupportedUserLocation,
         FunctionCallingConfig,
         FunctionCallingMode,
         FunctionDeclaration,
-        Schema,
-        SchemaType,
         Tool,
-        ToolConfig;
-export 'src/vertex_model.dart' show GenerativeModel;
+        ToolConfig,
+        ImagenSafetySettings,
+        ImagenFormat,
+        ImagenSafetyFilterLevel,
+        ImagenPersonFilterLevel,
+        ImagenGenerationConfig,
+        ImagenAspectRatio,
+        ImagenInlineImage,
+        LiveGenerationConfig,
+        SpeechConfig,
+        LiveServerMessage,
+        LiveServerContent,
+        LiveServerToolCall,
+        LiveServerToolCallCancellation,
+        LiveServerResponse,
+        LiveSession,
+        Schema,
+        SchemaType;
+export 'src/firebase_vertexai.dart' show FirebaseVertexAI;
+
+/// Exception thrown when generating content fails.
+typedef VertexAIException = FirebaseAIException;
+
+/// Exception indicating a stale package version or implementation bug.
+///
+/// This exception indicates a likely problem with the SDK implementation such
+/// as an inability to parse a new response format. Resolution paths may include
+/// updating to a new version of the SDK, or filing an issue.
+typedef VertexAISdkException = FirebaseAISdkException;

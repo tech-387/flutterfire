@@ -1,3 +1,85 @@
+## 12.4.9
+
+ - Update a dependency to the latest release.
+
+## 12.4.8
+
+ - **FIX**(core): bump Pigeon to v25.3.2 ([#17438](https://github.com/firebase/flutterfire/issues/17438)). ([4d24ef53](https://github.com/firebase/flutterfire/commit/4d24ef534464b39dcaef4151c83c78f87b36fb78))
+
+## 12.4.7
+
+ - Update a dependency to the latest release.
+
+## 12.4.6
+
+ - Update a dependency to the latest release.
+
+## 12.4.5
+
+ - Update a dependency to the latest release.
+
+## 12.4.4
+
+ - Update a dependency to the latest release.
+
+## 12.4.3
+
+ - Update a dependency to the latest release.
+
+## 12.4.2
+
+ - Update a dependency to the latest release.
+
+## 12.4.1
+
+ - **FIX**(storage,android): fix an issue that could crash the app when concurrent calls to removeEventListeners were happening ([#16996](https://github.com/firebase/flutterfire/issues/16996)). ([6499c5f5](https://github.com/firebase/flutterfire/commit/6499c5f5457bca168e6934679562548a94e4f7a8))
+
+## 12.4.0
+
+ - **FIX**(storage): update regex for cloudStoragePath ([#16847](https://github.com/firebase/flutterfire/issues/16847)). ([b0832175](https://github.com/firebase/flutterfire/commit/b08321754c1fc8b773c9ea61c2e09fe866cefacc))
+ - **FEAT**(storage): Swift Package Manager support ([#16782](https://github.com/firebase/flutterfire/issues/16782)). ([b5993aef](https://github.com/firebase/flutterfire/commit/b5993aef0bf12d056a366bea9c7ce51c9781e290))
+
+## 12.3.7
+
+ - **FIX**(storage,apple): clean up event channel, stream handler and task on completion ([#16708](https://github.com/firebase/flutterfire/issues/16708)). ([14b4a552](https://github.com/firebase/flutterfire/commit/14b4a552f90ea03b297938ee30423c0e1e7d888e))
+
+## 12.3.6
+
+ - Update a dependency to the latest release.
+
+## 12.3.5
+
+ - Update a dependency to the latest release.
+
+## 12.3.4
+
+ - **FIX**(storage,android): stream handler & event channel clean up on completion ([#13508](https://github.com/firebase/flutterfire/issues/13508)). ([f010b468](https://github.com/firebase/flutterfire/commit/f010b4684e38f47ad9b38d34c3a84a4eb4518fac))
+
+## 12.3.3
+
+ - **FIX**(storage,web): fix putData when using UInt8List ([#13466](https://github.com/firebase/flutterfire/issues/13466)). ([2bfb549e](https://github.com/firebase/flutterfire/commit/2bfb549ee6706648a0bf661781195171cfb05cb5))
+
+## 12.3.2
+
+ - **FIX**(all,apple): use modular headers to import ([#13400](https://github.com/firebase/flutterfire/issues/13400)). ([d7d2d4b9](https://github.com/firebase/flutterfire/commit/d7d2d4b93e7c00226027fffde46699f3d5388a41))
+
+## 12.3.1
+
+ - Update a dependency to the latest release.
+
+## 12.3.0
+
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 12.2.0
+
+ - **FEAT**: bump iOS SDK to version 11.0.0 ([#13158](https://github.com/firebase/flutterfire/issues/13158)). ([c0e0c997](https://github.com/firebase/flutterfire/commit/c0e0c99703ea394d1bb873ac225c5fe3539b002d))
+ - **DOCS**: remove reference to flutter.io and firebase.flutter.dev ([#13152](https://github.com/firebase/flutterfire/issues/13152)). ([5f0874b9](https://github.com/firebase/flutterfire/commit/5f0874b91e28a203dd62d37d391e5760c91f5729))
+
+## 12.1.3
+
+ - **FIX**(storage,windows): add log to explain that the Storage Emulator is not available on Windows ([#13147](https://github.com/firebase/flutterfire/issues/13147)). ([8d1ea80c](https://github.com/firebase/flutterfire/commit/8d1ea80cf7b007459572405c876e813b43c3b4cf))
+
 ## 12.1.2
 
  - Update a dependency to the latest release.

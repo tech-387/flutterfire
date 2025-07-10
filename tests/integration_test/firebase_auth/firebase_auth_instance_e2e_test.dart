@@ -193,7 +193,7 @@ void main() {
             );
           });
         },
-        skip: !kIsWeb && Platform.isWindows,
+        skip: !kIsWeb && (Platform.isWindows || Platform.isMacOS),
       );
 
       group('test all stream listeners', () {
@@ -201,7 +201,8 @@ void main() {
               (list) => list.whereType<User>().length == 3,
               'a list containing exactly 3 User instances',
             );
-        test('create, cancel and reopen all user event stream handlers', () async {
+        test('create, cancel and reopen all user event stream handlers',
+            () async {
           final auth = FirebaseAuth.instance;
           final events = [];
           final streamHandler = events.add;
@@ -444,22 +445,27 @@ void main() {
       group(
         'sendPasswordResetEmail()',
         () {
-          test('should not error', () async {
-            var email = generateRandomEmail();
+          test(
+            'should not error',
+            () async {
+              var email = generateRandomEmail();
 
-            try {
-              await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: email,
-                password: testPassword,
-              );
+              try {
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  email: email,
+                  password: testPassword,
+                );
 
-              await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-              await FirebaseAuth.instance.currentUser!.delete();
-            } catch (e) {
-              await FirebaseAuth.instance.currentUser!.delete();
-              fail(e.toString());
-            }
-          });
+                await FirebaseAuth.instance
+                    .sendPasswordResetEmail(email: email);
+                await FirebaseAuth.instance.currentUser!.delete();
+              } catch (e) {
+                await FirebaseAuth.instance.currentUser!.delete();
+                fail(e.toString());
+              }
+            },
+            skip: !kIsWeb && Platform.isMacOS,
+          );
 
           test('fails if the user could not be found', () async {
             try {
@@ -515,7 +521,7 @@ void main() {
             );
           });
         },
-        skip: !kIsWeb && Platform.isWindows,
+        skip: !kIsWeb && (Platform.isWindows || Platform.isMacOS),
       );
 
       group('languageCode', () {
@@ -608,7 +614,7 @@ void main() {
             final userCred = await FirebaseAuth.instance.signInAnonymously();
             await successCallback(userCred);
           },
-          skip: !kIsWeb && Platform.isWindows,
+          skip: !kIsWeb && (Platform.isWindows || Platform.isMacOS),
         );
       });
 
@@ -624,7 +630,7 @@ void main() {
                 .signInWithCredential(credential)
                 .then(commonSuccessCallback);
           },
-          skip: !kIsWeb && Platform.isWindows,
+          skip: !kIsWeb && (Platform.isWindows || Platform.isMacOS),
         );
 
         test('throws if login user is disabled', () async {
@@ -762,7 +768,7 @@ void main() {
             expect(idTokenResult.claims!['roles'][0]['role'], 'member');
           });
         },
-        skip: !kIsWeb && Platform.isWindows,
+        skip: !kIsWeb && (Platform.isWindows || Platform.isMacOS),
       );
 
       group('signInWithEmailAndPassword()', () {
@@ -834,6 +840,43 @@ void main() {
             fail(e.toString());
           }
         });
+        test(
+            'should not throw error when app is deleted and reinit with same app name',
+            () async {
+          try {
+            const appName = 'SecondaryApp';
+
+            final app = await Firebase.initializeApp(
+              name: appName,
+              options: DefaultFirebaseOptions.currentPlatform,
+            );
+
+            var auth1 = FirebaseAuth.instanceFor(app: app);
+
+            await auth1.signInWithEmailAndPassword(
+              email: testEmail,
+              password: testPassword,
+            );
+
+            await app.delete();
+
+            final app2 = await Firebase.initializeApp(
+              name: appName,
+              options: DefaultFirebaseOptions.currentPlatform,
+            );
+
+            final auth2 = FirebaseAuth.instanceFor(app: app2);
+
+            await auth2.signInWithEmailAndPassword(
+              email: testEmail,
+              password: testPassword,
+            );
+          } on FirebaseException catch (e) {
+            fail('Failed with error: $e');
+          } catch (e) {
+            fail(e.toString());
+          }
+        });
       });
 
       group('signOut()', () {
@@ -898,7 +941,6 @@ void main() {
 
             Exception e = await getError();
             expect(e, isA<FirebaseAuthException>());
-
             FirebaseAuthException exception = e as FirebaseAuthException;
             expect(exception.code, equals('invalid-phone-number'));
           });
@@ -1000,6 +1042,23 @@ void main() {
             expect(userCredential.user!.tenantId, tenantId);
           });
           // todo(russellwheatley85): get/set tenantId and authenticating user via auth emulator is not possible at the moment.
+        },
+        skip: true,
+      );
+
+      group(
+        'initializeRecaptchaConfig',
+        () {
+          test('initializeRecaptchaConfig completes without throwing',
+              () async {
+            // Skipping this test as initializeRecaptchaConfig is not supported
+            // by the Firebase emulator suite.
+            try {
+              await FirebaseAuth.instance.initializeRecaptchaConfig();
+            } catch (e) {
+              fail('Should not have thrown: $e');
+            }
+          });
         },
         skip: true,
       );

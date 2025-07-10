@@ -6,7 +6,7 @@
 // ignore_for_file: public_member_api_docs
 
 @JS('firebase_messaging')
-library firebase_interop.messaging;
+library;
 
 import 'dart:js_interop';
 
@@ -18,16 +18,16 @@ external MessagingJsImpl getMessaging([AppJsImpl? app]);
 
 @JS()
 @staticInterop
-external JSPromise /* bool */ deleteToken(MessagingJsImpl messaging);
+external JSPromise<JSBoolean> deleteToken(MessagingJsImpl messaging);
 
 @JS()
 @staticInterop
-external JSPromise /* String */ getToken(
+external JSPromise<JSString> getToken(
     MessagingJsImpl messaging, GetTokenOptions? getTokenOptions);
 
 @JS('isSupported')
 @staticInterop
-external JSPromise /* bool */ isSupported();
+external JSPromise<JSBoolean> isSupported();
 
 @JS()
 @staticInterop

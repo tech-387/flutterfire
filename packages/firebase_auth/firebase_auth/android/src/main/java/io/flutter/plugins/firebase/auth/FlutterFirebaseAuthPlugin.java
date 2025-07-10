@@ -419,7 +419,8 @@ public class FlutterFirebaseAuthPlugin
               result) {
     FirebaseAuth firebaseAuth = getAuthFromPigeon(app);
 
-    OAuthProvider.Builder provider = OAuthProvider.newBuilder(signInProvider.getProviderId());
+    OAuthProvider.Builder provider =
+        OAuthProvider.newBuilder(signInProvider.getProviderId(), firebaseAuth);
     if (signInProvider.getScopes() != null) {
       provider.setScopes(signInProvider.getScopes());
     }
@@ -675,6 +676,25 @@ public class FlutterFirebaseAuthPlugin
       @NonNull GeneratedAndroidFirebaseAuth.VoidResult result) {
     // Should never get here as we throw Exception on Dart side.
     result.success();
+  }
+
+  @Override
+  public void initializeRecaptchaConfig(
+      @NonNull GeneratedAndroidFirebaseAuth.AuthPigeonFirebaseApp app,
+      @NonNull GeneratedAndroidFirebaseAuth.VoidResult result) {
+    FirebaseAuth firebaseAuth = getAuthFromPigeon(app);
+    firebaseAuth
+        .initializeRecaptchaConfig()
+        .addOnCompleteListener(
+            task -> {
+              if (task.isSuccessful()) {
+                result.success();
+              } else {
+                result.error(
+                    FlutterFirebaseAuthPluginException.parserExceptionToFlutter(
+                        task.getException()));
+              }
+            });
   }
 
   @Override

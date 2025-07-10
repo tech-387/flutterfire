@@ -1,3 +1,75 @@
+## 3.10.16
+
+ - Update a dependency to the latest release.
+
+## 3.10.15
+
+ - Update a dependency to the latest release.
+
+## 3.10.14
+
+ - Update a dependency to the latest release.
+
+## 3.10.13
+
+ - Update a dependency to the latest release.
+
+## 3.10.12
+
+ - Update a dependency to the latest release.
+
+## 3.10.11
+
+ - Update a dependency to the latest release.
+
+## 3.10.10
+
+ - Update a dependency to the latest release.
+
+## 3.10.9
+
+ - Update a dependency to the latest release.
+
+## 3.10.8
+
+ - Update a dependency to the latest release.
+
+## 3.10.7
+
+ - Update a dependency to the latest release.
+
+## 3.10.6
+
+ - Update a dependency to the latest release.
+
+## 3.10.5
+
+ - Update a dependency to the latest release.
+
+## 3.10.4
+
+ - Update a dependency to the latest release.
+
+## 3.10.3
+
+ - **FIX**(storage,web): fix putData when using UInt8List ([#13466](https://github.com/firebase/flutterfire/issues/13466)). ([2bfb549e](https://github.com/firebase/flutterfire/commit/2bfb549ee6706648a0bf661781195171cfb05cb5))
+
+## 3.10.2
+
+ - Update a dependency to the latest release.
+
+## 3.10.1
+
+ - Update a dependency to the latest release.
+
+## 3.10.0
+
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 3.9.13
+
+ - Update a dependency to the latest release.
+
 ## 3.9.12
 
  - Update a dependency to the latest release.
@@ -421,7 +493,7 @@
 
 ## 1.0.4
 
- - **REFACTOR**: Share guard functions accross plugins (#5783).
+ - **REFACTOR**: Share guard functions across plugins (#5783).
 
 ## 1.0.3
 

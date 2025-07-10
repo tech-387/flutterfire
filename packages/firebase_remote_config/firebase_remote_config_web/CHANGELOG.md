@@ -1,3 +1,71 @@
+## 1.8.7
+
+ - Update a dependency to the latest release.
+
+## 1.8.6
+
+ - Update a dependency to the latest release.
+
+## 1.8.5
+
+ - Update a dependency to the latest release.
+
+## 1.8.4
+
+ - Update a dependency to the latest release.
+
+## 1.8.3
+
+ - Update a dependency to the latest release.
+
+## 1.8.2
+
+ - Update a dependency to the latest release.
+
+## 1.8.1
+
+ - Update a dependency to the latest release.
+
+## 1.8.0
+
+ - **FEAT**(remote-config): custom signals support ([#17053](https://github.com/firebase/flutterfire/issues/17053)). ([7cf248a8](https://github.com/firebase/flutterfire/commit/7cf248a8808e3d8f7fed29f18ddaf1fadf329ca3))
+
+## 1.7.7
+
+ - Update a dependency to the latest release.
+
+## 1.7.6
+
+ - Update a dependency to the latest release.
+
+## 1.7.5
+
+ - Update a dependency to the latest release.
+
+## 1.7.4
+
+ - Update a dependency to the latest release.
+
+## 1.7.3
+
+ - Update a dependency to the latest release.
+
+## 1.7.2
+
+ - Update a dependency to the latest release.
+
+## 1.7.1
+
+ - Update a dependency to the latest release.
+
+## 1.7.0
+
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 1.6.13
+
+ - Update a dependency to the latest release.
+
 ## 1.6.12
 
  - Update a dependency to the latest release.

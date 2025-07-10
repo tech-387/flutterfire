@@ -223,11 +223,12 @@ auth_interop.ActionCodeSettings? convertPlatformActionCodeSettings(
   Map<String, dynamic> actionCodeSettingsMap = actionCodeSettings.asMap();
 
   auth_interop.ActionCodeSettings webActionCodeSettings;
-
+  // ignore: deprecated_member_use
   if (actionCodeSettings.dynamicLinkDomain != null) {
     webActionCodeSettings = auth_interop.ActionCodeSettings(
       url: actionCodeSettings.url.toJS,
       handleCodeInApp: actionCodeSettings.handleCodeInApp.toJS,
+      // ignore: deprecated_member_use
       dynamicLinkDomain: actionCodeSettings.dynamicLinkDomain?.toJS,
     );
   } else {
@@ -237,16 +238,25 @@ auth_interop.ActionCodeSettings? convertPlatformActionCodeSettings(
     );
   }
 
+  if (actionCodeSettings.linkDomain != null) {
+    webActionCodeSettings.linkDomain = actionCodeSettings.linkDomain!.toJS;
+  }
+
   if (actionCodeSettingsMap['android'] != null) {
     webActionCodeSettings.android = auth_interop.AndroidSettings(
-        packageName: actionCodeSettingsMap['android']['packageName'],
-        minimumVersion: actionCodeSettingsMap['android']['minimumVersion'],
-        installApp: actionCodeSettingsMap['android']['installApp']);
+      packageName:
+          (actionCodeSettingsMap['android']['packageName'] as String?)?.toJS,
+      minimumVersion:
+          (actionCodeSettingsMap['android']['minimumVersion'] as String?)?.toJS,
+      installApp:
+          (actionCodeSettingsMap['android']['installApp'] as bool?)?.toJS,
+    );
   }
 
   if (actionCodeSettingsMap['iOS'] != null) {
     webActionCodeSettings.iOS = auth_interop.IosSettings(
-        bundleId: actionCodeSettingsMap['iOS']['bundleId']);
+      bundleId: (actionCodeSettingsMap['iOS']['bundleId'] as String?)?.toJS,
+    );
   }
 
   return webActionCodeSettings;
@@ -446,7 +456,6 @@ String convertRecaptchaVerifierSize(RecaptchaVerifierSize size) {
     case RecaptchaVerifierSize.compact:
       return 'compact';
     case RecaptchaVerifierSize.normal:
-    default:
       return 'normal';
   }
 }
@@ -457,7 +466,6 @@ String convertRecaptchaVerifierTheme(RecaptchaVerifierTheme theme) {
     case RecaptchaVerifierTheme.dark:
       return 'dark';
     case RecaptchaVerifierTheme.light:
-    default:
       return 'light';
   }
 }

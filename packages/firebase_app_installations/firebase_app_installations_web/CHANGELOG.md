@@ -1,3 +1,71 @@
+## 0.1.6+15
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+14
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+13
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+12
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+11
+
+ - **FIX**(app_installations,web): resolve type cast error in `getId` and `getToken` for wasm ([#17181](https://github.com/firebase/flutterfire/issues/17181)). ([14bd67f3](https://github.com/firebase/flutterfire/commit/14bd67f3e9c6a1dc18ef2daf79053cd906d44d88))
+
+## 0.1.6+10
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+9
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+8
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+7
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+6
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+5
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+4
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+3
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+2
+
+ - Update a dependency to the latest release.
+
+## 0.1.6+1
+
+ - Update a dependency to the latest release.
+
+## 0.1.6
+
+ - **FEAT**(web): update to `web: ^1.0.0` ([#13200](https://github.com/firebase/flutterfire/issues/13200)). ([8fab04ae](https://github.com/firebase/flutterfire/commit/8fab04aec3b95789856d95639131bf09db29175b))
+
+## 0.1.5+13
+
+ - Update a dependency to the latest release.
+
 ## 0.1.5+12
 
  - Update a dependency to the latest release.
