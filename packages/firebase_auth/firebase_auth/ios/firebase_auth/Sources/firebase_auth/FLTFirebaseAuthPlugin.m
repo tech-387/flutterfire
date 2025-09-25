@@ -101,7 +101,6 @@ static NSMutableDictionary<NSNumber *, FIRAuthCredential *> *credentialsMap;
 @end
 
 @implementation FLTFirebaseAuthPlugin {
-#if TARGET_OS_IPHONE
   // Map an id to a MultiFactorSession object.
   NSMutableDictionary<NSString *, FIRMultiFactorSession *> *_multiFactorSessionMap;
 
@@ -113,8 +112,6 @@ static NSMutableDictionary<NSNumber *, FIRAuthCredential *> *credentialsMap;
 
   // Map an id to a MultiFactorResolver object.
   NSMutableDictionary<NSString *, FIRTOTPSecret *> *_multiFactorTotpSecretMap;
-
-#endif
 
   NSObject<FlutterBinaryMessenger> *_binaryMessenger;
   NSMutableDictionary<NSString *, FlutterEventChannel *> *_eventChannels;
@@ -133,13 +130,10 @@ static NSMutableDictionary<NSNumber *, FIRAuthCredential *> *credentialsMap;
     _eventChannels = [NSMutableDictionary dictionary];
     _streamHandlers = [NSMutableDictionary dictionary];
 
-#if TARGET_OS_IPHONE
     _multiFactorSessionMap = [NSMutableDictionary dictionary];
     _multiFactorResolverMap = [NSMutableDictionary dictionary];
     _multiFactorAssertionMap = [NSMutableDictionary dictionary];
     _multiFactorTotpSecretMap = [NSMutableDictionary dictionary];
-
-#endif
   }
   return self;
 }
@@ -152,14 +146,6 @@ static NSMutableDictionary<NSNumber *, FIRAuthCredential *> *credentialsMap;
 
   [registrar addMethodCallDelegate:instance channel:channel];
 
-#if TARGET_OS_OSX
-  // TODO(Salakar): Publish does not exist on MacOS version of
-  // FlutterPluginRegistrar.
-  // TODO(Salakar): addApplicationDelegate does not exist on MacOS version of
-  // FlutterPluginRegistrar. (https://github.com/flutter/flutter/issues/41471)
-  SetUpFirebaseAuthHostApi(registrar.messenger, instance);
-  SetUpFirebaseAuthUserHostApi(registrar.messenger, instance);
-#else
   [registrar publish:instance];
   [registrar addApplicationDelegate:instance];
   SetUpFirebaseAuthHostApi(registrar.messenger, instance);
@@ -168,7 +154,6 @@ static NSMutableDictionary<NSNumber *, FIRAuthCredential *> *credentialsMap;
   SetUpMultiFactoResolverHostApi(registrar.messenger, instance);
   SetUpMultiFactorTotpHostApi(registrar.messenger, instance);
   SetUpMultiFactorTotpSecretHostApi(registrar.messenger, instance);
-#endif
 }
 
 + (FlutterError *)convertToFlutterError:(NSError *)error {
@@ -515,11 +500,6 @@ static void handleSignInWithApple(FLTFirebaseAuthPlugin *object, FIRAuthDataResu
                     completion:(nonnull void (^)(PigeonUserCredential *_Nullable,
                                                  FlutterError *_Nullable))completion
                      withError:(NSError *_Nullable)error {
-#if TARGET_OS_OSX
-  completion(nil, [FlutterError errorWithCode:@"second-factor-required"
-                                      message:error.description
-                                      details:nil]);
-#else
   FIRMultiFactorResolver *resolver =
       (FIRMultiFactorResolver *)error.userInfo[FIRAuthErrorUserInfoMultiFactorResolverKey];
 
@@ -560,7 +540,6 @@ static void handleSignInWithApple(FLTFirebaseAuthPlugin *object, FIRAuthDataResu
   completion(nil, [FlutterError errorWithCode:@"second-factor-required"
                                       message:error.description
                                       details:output]);
-#endif
 }
 
 static void launchAppleSignInRequest(FLTFirebaseAuthPlugin *object, AuthPigeonFirebaseApp *app,
@@ -841,13 +820,11 @@ static void handleAppleAuthResult(FLTFirebaseAuthPlugin *object, AuthPigeonFireb
 #endif
 }
 
-#if !TARGET_OS_OSX
 - (FIRMultiFactor *)getAppMultiFactorFromPigeon:(nonnull AuthPigeonFirebaseApp *)app {
   FIRAuth *auth = [self getFIRAuthFromAppNameFromPigeon:app];
   FIRUser *currentUser = auth.currentUser;
   return currentUser.multiFactor;
 }
-#endif
 
 - (nonnull ASPresentationAnchor)presentationAnchorForAuthorizationController:
     (nonnull ASAuthorizationController *)controller API_AVAILABLE(macos(10.15), ios(13.0)) {
@@ -858,12 +835,16 @@ static void handleAppleAuthResult(FLTFirebaseAuthPlugin *object, AuthPigeonFireb
 #endif
 }
 
-#if TARGET_OS_IPHONE
-
 - (void)enrollPhoneApp:(nonnull AuthPigeonFirebaseApp *)app
              assertion:(nonnull PigeonPhoneMultiFactorAssertion *)assertion
            displayName:(nullable NSString *)displayName
             completion:(nonnull void (^)(FlutterError *_Nullable))completion {
+#if TARGET_OS_OSX
+  completion([FlutterError errorWithCode:@"unsupported-platform"
+                                 message:@"Phone authentication is not supported on macOS"
+                                 details:nil]);
+#else
+
   FIRMultiFactor *multiFactor = [self getAppMultiFactorFromPigeon:app];
 
   FIRPhoneAuthCredential *credential =
@@ -885,6 +866,7 @@ static void handleAppleAuthResult(FLTFirebaseAuthPlugin *object, AuthPigeonFireb
                                                            details:nil]);
                           }
                         }];
+#endif
 }
 
 - (void)getEnrolledFactorsApp:(nonnull AuthPigeonFirebaseApp *)app
@@ -975,10 +957,12 @@ static void handleAppleAuthResult(FLTFirebaseAuthPlugin *object, AuthPigeonFireb
   FIRMultiFactorAssertion *multiFactorAssertion;
 
   if (assertion != nil) {
+#if TARGET_OS_IPHONE
     FIRPhoneAuthCredential *credential =
         [[FIRPhoneAuthProvider provider] credentialWithVerificationID:[assertion verificationId]
                                                      verificationCode:[assertion verificationCode]];
     multiFactorAssertion = [FIRPhoneMultiFactorGenerator assertionWithCredential:credential];
+#endif
   } else if (totpAssertionId != nil) {
     multiFactorAssertion = _multiFactorAssertionMap[totpAssertionId];
   } else {
@@ -1070,8 +1054,6 @@ static void handleAppleAuthResult(FLTFirebaseAuthPlugin *object, AuthPigeonFireb
   [totpSecret openInOTPAppWithQRCodeURL:qrCodeUrl];
   completion(nil);
 }
-
-#endif
 
 - (void)applyActionCodeApp:(nonnull AuthPigeonFirebaseApp *)app
                       code:(nonnull NSString *)code

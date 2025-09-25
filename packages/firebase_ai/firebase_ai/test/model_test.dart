@@ -123,7 +123,7 @@ void main() {
           matchesGenerateContentResponse(
             GenerateContentResponse([
               Candidate(
-                Content('model', [TextPart(result)]),
+                Content('model', [const TextPart(result)]),
                 null,
                 null,
                 null,
@@ -263,6 +263,22 @@ void main() {
                 'allowedFunctionNames': ['someFunction'],
               },
             });
+          },
+          response: arbitraryGenerateContentResponse,
+        );
+      });
+
+      test('can pass a google search tool', () async {
+        final (client, model) = createModel(
+          tools: [Tool.googleSearch()],
+        );
+        const prompt = 'Some prompt';
+        await client.checkRequest(
+          () => model.generateContent([Content.text(prompt)]),
+          verifyRequest: (_, request) {
+            expect(request['tools'], [
+              {'googleSearch': {}},
+            ]);
           },
           response: arbitraryGenerateContentResponse,
         );

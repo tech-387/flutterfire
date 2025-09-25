@@ -1,3 +1,19 @@
+## 5.2.13
+
+ - Update a dependency to the latest release.
+
+## 5.2.12
+
+ - Update a dependency to the latest release.
+
+## 5.2.11
+
+ - Update a dependency to the latest release.
+
+## 5.2.10
+
+ - Update a dependency to the latest release.
+
 ## 5.2.9
 
  - Update a dependency to the latest release.
