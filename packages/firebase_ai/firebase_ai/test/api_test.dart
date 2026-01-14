@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'dart:convert';
 
 import 'package:firebase_ai/src/api.dart';
@@ -242,14 +243,17 @@ void main() {
         SafetyRating(HarmCategory.harassment, HarmProbability.low)
       ];
       final citationMeta = CitationMetadata([]);
+      final urlContextMetadata = UrlContextMetadata(urlMetadata: []);
       final candidate = Candidate(
-          content, ratings, citationMeta, FinishReason.stop, 'Finished');
+          content, ratings, citationMeta, FinishReason.stop, 'Finished',
+          urlContextMetadata: urlContextMetadata);
 
       expect(candidate.content, same(content));
       expect(candidate.safetyRatings, same(ratings));
       expect(candidate.citationMetadata, same(citationMeta));
       expect(candidate.finishReason, FinishReason.stop);
       expect(candidate.finishMessage, 'Finished');
+      expect(candidate.urlContextMetadata, same(urlContextMetadata));
     });
   });
 
@@ -309,6 +313,8 @@ void main() {
       expect(FinishReason.maxTokens.toJson(), 'MAX_TOKENS');
       expect(FinishReason.safety.toJson(), 'SAFETY');
       expect(FinishReason.recitation.toJson(), 'RECITATION');
+      expect(FinishReason.malformedFunctionCall.toJson(),
+          'MALFORMED_FUNCTION_CALL');
       expect(FinishReason.other.toJson(), 'OTHER');
     });
 
@@ -414,6 +420,25 @@ void main() {
     });
   });
 
+  group('UrlContextMetadata', () {
+    test('UrlMetadata constructor', () {
+      final uri = Uri.parse('http://example.com/page');
+      final metadata = UrlMetadata(
+          retrievedUrl: uri, urlRetrievalStatus: UrlRetrievalStatus.success);
+      expect(metadata.retrievedUrl, uri);
+      expect(metadata.urlRetrievalStatus, UrlRetrievalStatus.success);
+    });
+
+    test('UrlContextMetadata constructor', () {
+      final urlMetadata = UrlMetadata(
+          retrievedUrl: Uri.parse('http://example.com'),
+          urlRetrievalStatus: UrlRetrievalStatus.success);
+      final contextMetadata = UrlContextMetadata(urlMetadata: [urlMetadata]);
+      expect(contextMetadata.urlMetadata, hasLength(1));
+      expect(contextMetadata.urlMetadata.first, same(urlMetadata));
+    });
+  });
+
   group('GenerationConfig & BaseGenerationConfig', () {
     test('GenerationConfig toJson with all fields', () {
       final schema = Schema.object(properties: {});
@@ -503,11 +528,27 @@ void main() {
   group('ThinkingConfig', () {
     test('toJson with thinkingBudget set', () {
       final config = ThinkingConfig(thinkingBudget: 123);
+
       expect(config.toJson(), {'thinkingBudget': 123});
     });
 
-    test('toJson with thinkingBudget null', () {
+    test('toJson with thinkingLevel set', () {
+      final config = ThinkingConfig.withThinkingLevel(ThinkingLevel.high,
+          includeThoughts: true);
+
+      expect(
+          config.toJson(), {'thinkingLevel': 'HIGH', 'includeThoughts': true});
+    });
+
+    test('toJson with includeThoughts set', () {
+      final config = ThinkingConfig(includeThoughts: true);
+
+      expect(config.toJson(), {'includeThoughts': true});
+    });
+
+    test('toJson with thinkingBudget and thinkingLevel null', () {
       final config = ThinkingConfig();
+
       // Expecting the key to be absent or the value to be explicitly null,
       // depending on implementation. Current implementation omits the key.
       expect(config.toJson(), {});
@@ -515,10 +556,53 @@ void main() {
 
     test('constructor initializes thinkingBudget', () {
       final config = ThinkingConfig(thinkingBudget: 456);
-      expect(config.thinkingBudget, 456);
 
-      final configNull = ThinkingConfig();
-      expect(configNull.thinkingBudget, isNull);
+      expect(config.thinkingBudget, 456);
+      expect(config.thinkingLevel, isNull);
+      expect(config.includeThoughts, isNull);
+    });
+
+    test('constructor initializes thinkingLevel', () {
+      final config = ThinkingConfig(thinkingLevel: ThinkingLevel.low);
+
+      expect(config.thinkingBudget, isNull);
+      expect(config.thinkingLevel, ThinkingLevel.low);
+      expect(config.includeThoughts, isNull);
+    });
+
+    test('constructor initializes includeThoughts', () {
+      final config = ThinkingConfig(includeThoughts: true);
+
+      expect(config.thinkingBudget, isNull);
+      expect(config.thinkingLevel, isNull);
+      expect(config.includeThoughts, isTrue);
+    });
+
+    test('withThinkingBudget factory initializes correctly', () {
+      final config =
+          ThinkingConfig.withThinkingBudget(789, includeThoughts: false);
+
+      expect(config.thinkingBudget, 789);
+      expect(config.thinkingLevel, isNull);
+      expect(config.includeThoughts, isFalse);
+    });
+
+    test('withThinkingLevel factory initializes correctly', () {
+      final config = ThinkingConfig.withThinkingLevel(ThinkingLevel.medium,
+          includeThoughts: true);
+
+      expect(config.thinkingBudget, isNull);
+      expect(config.thinkingLevel, ThinkingLevel.medium);
+      expect(config.includeThoughts, isTrue);
+    });
+
+    test(
+        'deprecated constructor throws AssertionError if both thinkingBudget and thinkingLevel are provided',
+        () {
+      expect(
+          () => ThinkingConfig(
+              thinkingBudget: 100, thinkingLevel: ThinkingLevel.high),
+          throwsA(isA<AssertionError>()));
     });
   });
 
@@ -659,6 +743,7 @@ void main() {
               'candidatesTokenCount': 20,
               'totalTokenCount': 30,
               'thoughtsTokenCount': 5,
+              'toolUsePromptTokenCount': 12
             }
           };
           final response =
@@ -668,6 +753,7 @@ void main() {
           expect(response.usageMetadata!.candidatesTokenCount, 20);
           expect(response.usageMetadata!.totalTokenCount, 30);
           expect(response.usageMetadata!.thoughtsTokenCount, 5);
+          expect(response.usageMetadata!.toolUsePromptTokenCount, 12);
         });
 
         test('parses usageMetadata when thoughtsTokenCount is missing', () {
@@ -949,6 +1035,18 @@ void main() {
                   (e) => e.message, 'message', contains('WebGroundingChunk'))));
         });
 
+        test('parses malformedFunctionCall finishReason', () {
+          final jsonResponse = {
+            'candidates': [
+              {'finishReason': 'MALFORMED_FUNCTION_CALL'}
+            ]
+          };
+          final response =
+              VertexSerialization().parseGenerateContentResponse(jsonResponse);
+          expect(response.candidates.first.finishReason,
+              FinishReason.malformedFunctionCall);
+        });
+
         test(
             'parses groundingSupport and filters out entries without a segment',
             () {
@@ -995,6 +1093,162 @@ void main() {
           final validSupport = groundingMetadata.groundingSupport.first;
           expect(validSupport.segment.text, 'Test');
           expect(validSupport.groundingChunkIndices, [0]);
+        });
+      });
+
+      group('UrlContextMetadata parsing', () {
+        test('parses valid response with full url context metadata', () {
+          final jsonResponse = {
+            'candidates': [
+              {
+                'content': {
+                  'parts': [
+                    {'text': 'Some text'}
+                  ]
+                },
+                'finishReason': 'STOP',
+                'urlContextMetadata': {
+                  'urlMetadata': [
+                    {
+                      'retrievedUrl': 'https://example.com',
+                      'urlRetrievalStatus': 'URL_RETRIEVAL_STATUS_SUCCESS'
+                    }
+                  ]
+                }
+              }
+            ]
+          };
+          final response =
+              VertexSerialization().parseGenerateContentResponse(jsonResponse);
+          final urlContextMetadata =
+              response.candidates.first.urlContextMetadata;
+          expect(urlContextMetadata, isNotNull);
+          expect(urlContextMetadata!.urlMetadata, hasLength(1));
+          final urlMetadata = urlContextMetadata.urlMetadata.first;
+          expect(urlMetadata.retrievedUrl, Uri.parse('https://example.com'));
+          expect(urlMetadata.urlRetrievalStatus, UrlRetrievalStatus.success);
+        });
+
+        test(
+            'parses valid response with full url context metadata and list of url metadata',
+            () {
+          final jsonResponse = {
+            'candidates': [
+              {
+                'content': {
+                  'parts': [
+                    {'text': 'Some text'}
+                  ]
+                },
+                'finishReason': 'STOP',
+                'urlContextMetadata': {
+                  'urlMetadata': [
+                    {
+                      'retrievedUrl': 'https://example.com',
+                      'urlRetrievalStatus': 'URL_RETRIEVAL_STATUS_SUCCESS'
+                    },
+                    {
+                      'retrievedUrl': 'https://foo.com',
+                      'urlRetrievalStatus': 'URL_RETRIEVAL_STATUS_ERROR'
+                    }
+                  ]
+                }
+              }
+            ]
+          };
+          final response =
+              VertexSerialization().parseGenerateContentResponse(jsonResponse);
+          final urlContextMetadata =
+              response.candidates.first.urlContextMetadata;
+          expect(urlContextMetadata, isNotNull);
+          expect(urlContextMetadata!.urlMetadata, hasLength(2));
+          final firstUrlMetadata = urlContextMetadata.urlMetadata.first;
+          expect(
+              firstUrlMetadata.retrievedUrl, Uri.parse('https://example.com'));
+          expect(
+              firstUrlMetadata.urlRetrievalStatus, UrlRetrievalStatus.success);
+          final secondUrlMetadata = urlContextMetadata.urlMetadata[1];
+          expect(secondUrlMetadata.retrievedUrl, Uri.parse('https://foo.com'));
+          expect(
+              secondUrlMetadata.urlRetrievalStatus, UrlRetrievalStatus.error);
+        });
+
+        test('parses response with missing retrievedUrl', () {
+          final jsonResponse = {
+            'candidates': [
+              {
+                'urlContextMetadata': {
+                  'urlMetadata': [
+                    {'urlRetrievalStatus': 'URL_RETRIEVAL_STATUS_ERROR'}
+                  ]
+                }
+              }
+            ]
+          };
+          final response =
+              VertexSerialization().parseGenerateContentResponse(jsonResponse);
+          final urlMetadata =
+              response.candidates.first.urlContextMetadata!.urlMetadata.first;
+          expect(urlMetadata.retrievedUrl, isNull);
+          expect(urlMetadata.urlRetrievalStatus, UrlRetrievalStatus.error);
+        });
+
+        test('handles empty urlMetadata list', () {
+          final jsonResponse = {
+            'candidates': [
+              {
+                'urlContextMetadata': {'urlMetadata': []}
+              }
+            ]
+          };
+          final response =
+              VertexSerialization().parseGenerateContentResponse(jsonResponse);
+          final urlContextMetadata =
+              response.candidates.first.urlContextMetadata;
+          expect(urlContextMetadata, isNotNull);
+          expect(urlContextMetadata!.urlMetadata, isEmpty);
+        });
+
+        test('handles missing urlContextMetadata field', () {
+          final jsonResponse = {
+            'candidates': [
+              {'finishReason': 'STOP'}
+            ]
+          };
+          final response =
+              VertexSerialization().parseGenerateContentResponse(jsonResponse);
+          final candidate = response.candidates.first;
+          expect(candidate.urlContextMetadata, isNull);
+        });
+
+        test('throws for invalid urlContextMetadata structure', () {
+          final jsonResponse = {
+            'candidates': [
+              {'urlContextMetadata': 'not_a_map'}
+            ]
+          };
+          expect(
+              () => VertexSerialization()
+                  .parseGenerateContentResponse(jsonResponse),
+              throwsA(isA<FirebaseAISdkException>().having((e) => e.message,
+                  'message', contains('UrlContextMetadata'))));
+        });
+
+        test('throws for invalid urlMetadata item in list', () {
+          final jsonResponse = {
+            'candidates': [
+              {
+                'urlContextMetadata': {
+                  'urlMetadata': ['not_a_map']
+                }
+              }
+            ]
+          };
+          expect(
+              () => VertexSerialization()
+                  .parseGenerateContentResponse(jsonResponse),
+              throwsA(isA<FirebaseAISdkException>().having(
+                  (e) => e.message, 'message', contains('UrlMetadata'))));
         });
       });
 
@@ -1054,6 +1308,9 @@ void main() {
                 'modality': 'TEXT',
               }
             ],
+            'toolUsePromptTokensDetails': [
+              {'modality': 'TEXT', 'tokenCount': 12}
+            ],
           }
         };
         final response =
@@ -1079,6 +1336,15 @@ void main() {
         expect(
             response.usageMetadata!.candidatesTokensDetails!.first.tokenCount,
             0);
+        expect(
+            response.usageMetadata!.toolUsePromptTokensDetails, hasLength(1));
+        expect(
+            response.usageMetadata!.toolUsePromptTokensDetails!.first.modality,
+            ContentModality.text);
+        expect(
+            response
+                .usageMetadata!.toolUsePromptTokensDetails!.first.tokenCount,
+            12);
       });
 
       test('parses citationMetadata with "citationSources"', () {

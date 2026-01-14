@@ -182,13 +182,16 @@ final class PromptFeedback {
 /// Metadata on the generation request's token usage.
 final class UsageMetadata {
   // ignore: public_member_api_docs
-  UsageMetadata._(
-      {this.promptTokenCount,
-      this.candidatesTokenCount,
-      this.totalTokenCount,
-      this.thoughtsTokenCount,
-      this.promptTokensDetails,
-      this.candidatesTokensDetails});
+  UsageMetadata._({
+    this.promptTokenCount,
+    this.candidatesTokenCount,
+    this.totalTokenCount,
+    this.thoughtsTokenCount,
+    this.toolUsePromptTokenCount,
+    this.promptTokensDetails,
+    this.candidatesTokensDetails,
+    this.toolUsePromptTokensDetails,
+  });
 
   /// Number of tokens in the prompt.
   final int? promptTokenCount;
@@ -202,11 +205,18 @@ final class UsageMetadata {
   /// Number of tokens present in thoughts output.
   final int? thoughtsTokenCount;
 
+  /// The number of tokens used by tools.
+  final int? toolUsePromptTokenCount;
+
   /// List of modalities that were processed in the request input.
   final List<ModalityTokenCount>? promptTokensDetails;
 
   /// List of modalities that were returned in the response.
   final List<ModalityTokenCount>? candidatesTokensDetails;
+
+  /// A list of tokens used by tools whose usage was triggered from a prompt,
+  /// broken down by modality.
+  final List<ModalityTokenCount>? toolUsePromptTokensDetails;
 }
 
 /// Response candidate generated from a [GenerativeModel].
@@ -214,7 +224,7 @@ final class Candidate {
   // ignore: public_member_api_docs
   Candidate(this.content, this.safetyRatings, this.citationMetadata,
       this.finishReason, this.finishMessage,
-      {this.groundingMetadata});
+      {this.groundingMetadata, this.urlContextMetadata});
 
   /// Generated content returned from the model.
   final Content content;
@@ -241,6 +251,9 @@ final class Candidate {
 
   /// Metadata returned to the client when grounding is enabled.
   final GroundingMetadata? groundingMetadata;
+
+  /// Metadata returned to the client when the [UrlContext] tool is enabled.
+  final UrlContextMetadata? urlContextMetadata;
 
   /// The concatenation of the text parts of [content], if any.
   ///
@@ -415,6 +428,76 @@ final class GroundingMetadata {
   /// These can be used to allow users to explore the search results
   /// themselves.
   final List<String> webSearchQueries;
+}
+
+/// The status of a URL retrieval.
+///
+/// > Warning: For Firebase AI Logic, URL Context
+/// is in Public Preview, which means that the feature is not subject to any SLA
+/// or deprecation policy and could change in backwards-incompatible ways.
+enum UrlRetrievalStatus {
+  /// Unspecified retrieval status.
+  unspecified('URL_RETRIEVAL_STATUS_UNSPECIFIED'),
+
+  /// The URL retrieval was successful.
+  success('URL_RETRIEVAL_STATUS_SUCCESS'),
+
+  /// The URL retrieval failed due.
+  error('URL_RETRIEVAL_STATUS_ERROR'),
+
+  /// The URL retrieval failed because the content is behind a paywall.
+  paywall('URL_RETRIEVAL_STATUS_PAYWALL'),
+
+  /// The URL retrieval failed because the content is unsafe.
+  unsafe('URL_RETRIEVAL_STATUS_UNSAFE');
+
+  const UrlRetrievalStatus(this._jsonString);
+  final String _jsonString;
+
+  // ignore: public_member_api_docs
+  String toJson() => _jsonString;
+
+  // ignore: unused_element
+  static UrlRetrievalStatus _parseValue(Object jsonObject) {
+    return switch (jsonObject) {
+      'URL_RETRIEVAL_STATUS_UNSPECIFIED' => UrlRetrievalStatus.unspecified,
+      'URL_RETRIEVAL_STATUS_SUCCESS' => UrlRetrievalStatus.success,
+      'URL_RETRIEVAL_STATUS_ERROR' => UrlRetrievalStatus.error,
+      'URL_RETRIEVAL_STATUS_PAYWALL' => UrlRetrievalStatus.paywall,
+      'URL_RETRIEVAL_STATUS_UNSAFE' => UrlRetrievalStatus.unsafe,
+      _ => UrlRetrievalStatus
+          .unspecified, // Default to unspecified for unknown values.
+    };
+  }
+}
+
+/// Metadata for a single URL retrieved by the [UrlContext] tool.
+///
+/// > Warning: For Firebase AI Logic, URL Context
+/// is in Public Preview, which means that the feature is not subject to any SLA
+/// or deprecation policy and could change in backwards-incompatible ways.
+final class UrlMetadata {
+  // ignore: public_member_api_docs
+  UrlMetadata({this.retrievedUrl, required this.urlRetrievalStatus});
+
+  /// The retrieved URL.
+  final Uri? retrievedUrl;
+
+  /// The status of the URL retrieval.
+  final UrlRetrievalStatus urlRetrievalStatus;
+}
+
+/// Metadata related to the [UrlContext] tool.
+///
+/// > Warning: For Firebase AI Logic, URL Context
+/// is in Public Preview, which means that the feature is not subject to any SLA
+/// or deprecation policy and could change in backwards-incompatible ways.
+final class UrlContextMetadata {
+  // ignore: public_member_api_docs
+  UrlContextMetadata({required this.urlMetadata});
+
+  /// List of [UrlMetadata] used to provide context to the Gemini model.
+  final List<UrlMetadata> urlMetadata;
 }
 
 /// Safety rating for a piece of content.
@@ -668,6 +751,9 @@ enum FinishReason {
   /// The candidate content was flagged for recitation reasons.
   recitation('RECITATION'),
 
+  /// The candidate content was flagged for malformed function call reasons.
+  malformedFunctionCall('MALFORMED_FUNCTION_CALL'),
+
   /// Unknown reason.
   other('OTHER');
 
@@ -687,6 +773,7 @@ enum FinishReason {
       'SAFETY' => FinishReason.safety,
       'RECITATION' => FinishReason.recitation,
       'OTHER' => FinishReason.other,
+      'MALFORMED_FUNCTION_CALL' => FinishReason.malformedFunctionCall,
       _ => throw FormatException('Unhandled FinishReason format', jsonObject),
     };
   }
@@ -875,21 +962,92 @@ enum ResponseModalities {
   String toJson() => _jsonString;
 }
 
+/// A preset that balances the trade-off between reasoning quality and response
+/// speed for a model's "thinking" process.
+///
+/// Note, not all models support every level.
+enum ThinkingLevel {
+  /// Minimal thinking level.
+  minimal('MINIMAL'),
+
+  /// Low thinking level.
+  low('LOW'),
+
+  /// Medium thinking level.
+  medium('MEDIUM'),
+
+  /// High thinking level.
+  high('HIGH');
+
+  const ThinkingLevel(this._jsonString);
+  final String _jsonString;
+
+  // ignore: public_member_api_docs
+  String toJson() => _jsonString;
+}
+
 /// Config for thinking features.
 class ThinkingConfig {
-  // ignore: public_member_api_docs
-  ThinkingConfig({this.thinkingBudget, this.includeThoughts});
+  /// Deprecated public constructor of [ThinkingConfig].
+  ///
+  /// Keep for backwards compatibility.
+  /// [thinkingBudget] and [thinkingLevel] cannot be set at the same time.
+  @Deprecated(
+      'Use ThinkingConfig.withThinkingBudget() or ThinkingConfig.withThinkingLevel() instead.')
+  ThinkingConfig(
+      {this.thinkingBudget, this.thinkingLevel, this.includeThoughts})
+      : assert(
+          !(thinkingBudget != null && thinkingLevel != null),
+          'thinkingBudget and thinkingLevel cannot be set at the same time.',
+        );
+
+  // Private constructor
+  ThinkingConfig._(
+      {this.thinkingBudget, this.thinkingLevel, this.includeThoughts});
+
+  /// Initializes [ThinkingConfig] with [thinkingBudget].
+  ///
+  /// Used for Gemini models 2.5 and earlier.
+  factory ThinkingConfig.withThinkingBudget(int? thinkingBudget,
+          {bool? includeThoughts}) =>
+      ThinkingConfig._(
+          thinkingBudget: thinkingBudget, includeThoughts: includeThoughts);
+
+  /// Initializes [ThinkingConfig] with [thinkingLevel].
+  ///
+  /// Used for Gemini models 3.0 and newer.
+  /// See https://ai.google.dev/gemini-api/docs/thinking#thinking-levels
+  factory ThinkingConfig.withThinkingLevel(ThinkingLevel? thinkingLevel,
+          {bool? includeThoughts}) =>
+      ThinkingConfig._(
+          thinkingLevel: thinkingLevel, includeThoughts: includeThoughts);
 
   /// The number of thoughts tokens that the model should generate.
+  ///
+  /// The range of supported thinking budget values depends on the model.
+  /// https://firebase.google.com/docs/ai-logic/thinking?api=dev#supported-thinking-budget-values
+  /// To use the default thinking budget or thinking level for a model, set this
+  /// value to null or omit it.
+  /// To disable thinking, when supported by the model, set this value to `0`.
+  /// To use dynamic thinking, allowing the model to decide on the thinking
+  /// budget based on the task, set this value to `-1`.
   final int? thinkingBudget;
 
   /// Whether to include thoughts in the response.
   final bool? includeThoughts;
 
+  /// A preset that controls the model's "thinking" process.
+  ///
+  /// Use [ThinkingLevel.low] for faster responses on less complex tasks, and
+  /// [ThinkingLevel.high] for better reasoning on more complex tasks.
+  final ThinkingLevel? thinkingLevel;
+
   // ignore: public_member_api_docs
   Map<String, Object?> toJson() => {
         if (thinkingBudget case final thinkingBudget?)
           'thinkingBudget': thinkingBudget,
+        if (thinkingLevel case final thinkingLevel?)
+          'thinkingLevel': thinkingLevel.toJson(),
         if (includeThoughts case final includeThoughts?)
           'includeThoughts': includeThoughts,
       };
@@ -1280,10 +1438,21 @@ Candidate _parseCandidate(Object? jsonObject) {
         {'groundingMetadata': final Object groundingMetadata} =>
           parseGroundingMetadata(groundingMetadata),
         _ => null
+      },
+      urlContextMetadata: switch (jsonObject) {
+        {'urlContextMetadata': final Object urlContextMetadata} =>
+          parseUrlContextMetadata(urlContextMetadata),
+        _ => null
       });
 }
 
 PromptFeedback _parsePromptFeedback(Object jsonObject) {
+  if (jsonObject is! Map) {
+    throw unhandledFormat('PromptFeedback', jsonObject);
+  }
+  if (jsonObject.isEmpty) {
+    return PromptFeedback(null, null, []);
+  }
   return switch (jsonObject) {
     {
       'safetyRatings': final List<Object?> safetyRatings,
@@ -1328,6 +1497,11 @@ UsageMetadata parseUsageMetadata(Object jsonObject) {
     {'thoughtsTokenCount': final int thoughtsTokenCount} => thoughtsTokenCount,
     _ => null,
   };
+  final toolUsePromptTokenCount = switch (jsonObject) {
+    {'toolUsePromptTokenCount': final int toolUsePromptTokenCount} =>
+      toolUsePromptTokenCount,
+    _ => null,
+  };
   final promptTokensDetails = switch (jsonObject) {
     {'promptTokensDetails': final List<Object?> promptTokensDetails} =>
       promptTokensDetails.map(_parseModalityTokenCount).toList(),
@@ -1338,13 +1512,23 @@ UsageMetadata parseUsageMetadata(Object jsonObject) {
       candidatesTokensDetails.map(_parseModalityTokenCount).toList(),
     _ => null,
   };
+  final toolUsePromptTokensDetails = switch (jsonObject) {
+    {
+      'toolUsePromptTokensDetails': final List<Object?>
+          toolUsePromptTokensDetails
+    } =>
+      toolUsePromptTokensDetails.map(_parseModalityTokenCount).toList(),
+    _ => null,
+  };
   return UsageMetadata._(
     promptTokenCount: promptTokenCount,
     candidatesTokenCount: candidatesTokenCount,
     totalTokenCount: totalTokenCount,
     thoughtsTokenCount: thoughtsTokenCount,
+    toolUsePromptTokenCount: toolUsePromptTokenCount,
     promptTokensDetails: promptTokensDetails,
     candidatesTokensDetails: candidatesTokensDetails,
+    toolUsePromptTokensDetails: toolUsePromptTokensDetails,
   );
 }
 
@@ -1520,6 +1704,33 @@ SearchEntryPoint _parseSearchEntryPoint(Object? jsonObject) {
 
   return SearchEntryPoint(
     renderedContent: renderedContent,
+  );
+}
+
+UrlMetadata _parseUrlMetadata(Object? jsonObject) {
+  if (jsonObject is! Map) {
+    throw unhandledFormat('UrlMetadata', jsonObject);
+  }
+  final uriString = jsonObject['retrievedUrl'] as String?;
+  return UrlMetadata(
+    retrievedUrl: uriString != null ? Uri.parse(uriString) : null,
+    urlRetrievalStatus:
+        UrlRetrievalStatus._parseValue(jsonObject['urlRetrievalStatus']),
+  );
+}
+
+/// Parses a [UrlContextMetadata] from a JSON object.
+///
+/// This function is used internally to convert URL context metadata from the API
+/// response.
+UrlContextMetadata parseUrlContextMetadata(Object? jsonObject) {
+  if (jsonObject is! Map) {
+    throw unhandledFormat('UrlContextMetadata', jsonObject);
+  }
+  return UrlContextMetadata(
+    urlMetadata: (jsonObject['urlMetadata'] as List<Object?>? ?? [])
+        .map(_parseUrlMetadata)
+        .toList(),
   );
 }
 

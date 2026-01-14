@@ -24,7 +24,6 @@ part of '../base_model.dart';
 /// > Warning: For Vertex AI in Firebase, image generation using Imagen 3 models
 /// is in Public Preview, which means that the feature is not subject to any SLA
 /// or deprecation policy and could change in backwards-incompatible ways.
-@experimental
 final class ImagenModel extends BaseApiClientModel {
   ImagenModel._(
       {required FirebaseApp app,
@@ -40,7 +39,9 @@ final class ImagenModel extends BaseApiClientModel {
         _safetySettings = safetySettings,
         _useVertexBackend = useVertexBackend,
         super(
-            serializationStrategy: VertexSerialization(),
+            serializationStrategy: useVertexBackend
+                ? VertexSerialization()
+                : DeveloperSerialization(),
             modelUri: useVertexBackend
                 ? _VertexUri(app: app, model: model, location: location)
                 : _GoogleAIUri(app: app, model: model),
@@ -84,7 +85,6 @@ final class ImagenModel extends BaseApiClientModel {
 
   /// Generates images with format of [ImagenInlineImage] based on the given
   /// prompt.
-  @experimental
   Future<ImagenGenerationResponse<ImagenInlineImage>> generateImages(
     String prompt,
   ) =>
@@ -194,7 +194,6 @@ final class ImagenModel extends BaseApiClientModel {
 }
 
 /// Returns a [ImagenModel] using it's private constructor.
-@experimental
 ImagenModel createImagenModel({
   required FirebaseApp app,
   required String location,
