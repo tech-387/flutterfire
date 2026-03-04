@@ -1,3 +1,12 @@
+## 3.5.0
+
+ - **FEAT**: bump Firebase JS SDK to 12.9.0 ([#18043](https://github.com/firebase/flutterfire/issues/18043)). ([1b29c4d4](https://github.com/firebase/flutterfire/commit/1b29c4d432597d12e08990825647f0ac9467a8f3))
+
+## 3.4.0
+
+ - **FIX**(firebase_core,web): return empty list from apps getter in WASM mode ([#17919](https://github.com/firebase/flutterfire/issues/17919)). ([0eea9f81](https://github.com/firebase/flutterfire/commit/0eea9f814e7f8bace50e8c1e5973c231cf9a4e3a))
+ - **FEAT**: bump Firebase JS SDK to 12.7.0 ([#17940](https://github.com/firebase/flutterfire/issues/17940)). ([198aef8d](https://github.com/firebase/flutterfire/commit/198aef8db6c96a08f57d750f1fa756da5e4a68a5))
+
 ## 3.3.1
 
  - **REFACTOR**(firebase_core,web): remove variant fallback in registerVersion ([#17874](https://github.com/firebase/flutterfire/issues/17874)). ([44d99a94](https://github.com/firebase/flutterfire/commit/44d99a94f00eb34a175a36ee35c074afcadf9890))
