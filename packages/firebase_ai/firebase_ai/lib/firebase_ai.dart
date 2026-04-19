@@ -22,6 +22,8 @@ export 'src/api.dart'
         FinishReason,
         GenerateContentResponse,
         GenerationConfig,
+        GoogleMapsGroundingChunk,
+        GroundingChunk,
         ThinkingConfig,
         ThinkingLevel,
         HarmBlockThreshold,
@@ -32,7 +34,8 @@ export 'src/api.dart'
         ResponseModalities,
         SafetyRating,
         SafetySetting,
-        UsageMetadata;
+        UsageMetadata,
+        WebGroundingChunk;
 export 'src/base_model.dart'
     show
         GenerativeModel,
@@ -110,8 +113,15 @@ export 'src/live_api.dart'
         GoingAwayNotice,
         Transcription;
 export 'src/live_session.dart' show LiveSession;
-export 'src/schema.dart' show Schema, SchemaType;
-
+export 'src/schema.dart' show JSONSchema, Schema, SchemaType;
+export 'src/server_template/template_chat.dart'
+    show TemplateChatSession, StartTemplateChatExtension;
+export 'src/server_template/template_tool.dart'
+    show
+        TemplateAutoFunctionDeclaration,
+        TemplateFunctionDeclaration,
+        TemplateTool,
+        TemplateToolConfig;
 export 'src/tool.dart'
     show
         AutoFunctionDeclaration,
@@ -121,5 +131,8 @@ export 'src/tool.dart'
         Tool,
         ToolConfig,
         GoogleSearch,
+        GoogleMaps,
         CodeExecution,
-        UrlContext;
+        UrlContext,
+        LatLng,
+        RetrievalConfig;
